@@ -1,5 +1,8 @@
 
 
+allow building modules based on templates and community templates
+
+
 # Roadmap & Brainstorm
 
 ## New Commands
