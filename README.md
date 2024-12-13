@@ -156,7 +156,7 @@ gorepo execute --exclude=modX my_command
 ### Description
 
 This command is breaking if the code in targeted modules is not formated.
-This is primary meant to be used in ci pipelines.
+This is primary meant to be used in ci pipelines, it does not modify the code or apply changes.
 
 ### Usage
 
