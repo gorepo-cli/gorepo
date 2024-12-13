@@ -14,6 +14,8 @@ You can:
 
 Note this file will grow if needed.
 
+Juniors are also welcome to push code (see how we need to add tests, to add new commands, how error messages are hardcoded etc).
+
 # Run the project
 
 See [README.md](README.md)
