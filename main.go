@@ -829,11 +829,6 @@ func Cli() (err error) {
 			Value: "",
 			Usage: "Exclude specific modules (comma separated)",
 		},
-		&cli.BoolFlag{
-			Name:  "allow-missing",
-			Value: false,
-			Usage: "Allow executing the scripts, even if some module don't have it",
-		},
 	}
 	app := &cli.App{
 		Name:  "GOREPO",
@@ -853,7 +848,11 @@ func Cli() (err error) {
 				Name:   "execute",
 				Usage:  "Execute a script across targeted modules",
 				Action: cmd.Execute,
-				Flags:  executionFlags,
+				Flags: append(executionFlags, &cli.BoolFlag{
+					Name:  "allow-missing",
+					Value: false,
+					Usage: "Allow executing the scripts, even if some module don't have it",
+				}),
 			},
 			{
 				Name:   "fmt-ci",

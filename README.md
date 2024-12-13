@@ -151,6 +151,28 @@ gorepo execute --target=root my_command
 gorepo execute --exclude=modX my_command
 ```
 
+## gorepo fmt-ci
+
+### Description
+
+This command is breaking if the code in targeted modules is not formated.
+This is primary meant to be used in ci pipelines.
+
+### Usage
+
+```
+gorepo fmt-ci [--target] [--exclude]
+```
+
+### Parameters
+
+- `--target` (optional): comma-separated names of modules to target
+- `--exclude` (optional): comma-separated names of modules to exclude
+
+### Exemples
+
+For the usage of the flags, refer to the reference of `gorepo execute`
+
 ## gorepo version
 
 ### Description
