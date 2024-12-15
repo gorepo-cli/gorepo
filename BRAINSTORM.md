@@ -11,6 +11,8 @@
 - see how we could handle docker
 - see how we could handle pipelines
 - implement some nodemon feature (`gorepo wath` or `gorepo run --watch`)
+- add timeout
+- provide better logging, better verbose logging, summary of operations
 
 ## New Commands
 
@@ -31,61 +33,10 @@
 - `gorepo start` (call what was built) option `--watch` (runs dev, if docker), option `--no-docker` (runs dev, without docker)
 
 ## New flags
-- [executionFlags] parallel: to run the commands in parallel
+- [executionFlags] parallel: to run the commands in parallel (default 1)
 - [global]         dry-run:  to show what would be done 
 
 ```
 acceptable names has:
 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.@!#$%^&()[]{}'+,;=~
 ```
-
-//{
-//	Name:   "add",
-//	Usage:  "Add a new module to the monorepo",
-//	Action: commands.Add,
-//	Flags: []cli.Flag{
-//		&cli.BoolFlag{
-//			Name:  "verbose",
-//			Usage: "Enable verbose output",
-//		},
-//		&cli.StringFlag{
-//			Name:  "template",
-//			Usage: "Choose a template (not implemented)",
-//		},
-//	},
-//},
-//{}, // sanitize / lint / health / check
-
-
-Add Context Support for Cancellation
-
-Issue: Long-running operations cannot be cancelled by the user.
-
-Recommendation: Pass context.Context to functions to handle cancellation and timeouts.
-
-go
-Copy code
-func (cmd *Commands) Run(c *cli.Context) error {
-ctx := c.Context
-// Pass ctx to functions and check for cancellation
-}
-
-Provide Execution Summaries
-
-Issue: Users don't receive a summary of the executed commands.
-
-Recommendation: Collect and display a summary at the end of script execution.
-
-go
-Copy code
-var failedModules []string
-// ... (during execution)
-if err != nil {
-failedModules = append(failedModules, module.Name)
-}
-// After execution
-if len(failedModules) > 0 {
-cmd.SystemUtils.Logger.Warning("Scripts failed in modules: " + strings.Join(failedModules, ", "))
-} else {
-cmd.SystemUtils.Logger.Success("All scripts ran successfully.")
-}

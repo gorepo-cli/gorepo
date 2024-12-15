@@ -70,7 +70,7 @@ func (fs *Fs) Walk(root string, walkFn filepath.WalkFunc) (err error) {
 
 // ExecI defines methods to run commands
 type ExecI interface {
-	GoCommand(dir string, args ...string) error
+	GoCommand(absolutePath string, args ...string) error
 	BashCommand(absolutePath, script string) error
 }
 
@@ -262,7 +262,7 @@ var _ RootManipulation = &Config{}
 type ModuleManipulation interface {
 	GetModules(targets, exclude []string) (modules []ModuleConfig, err error)
 	LoadModuleConfig(relativePath string) (cfg ModuleConfig, err error)
-	WriteModuleConfig(modConfig ModuleConfig, relativePath, name string) (err error)
+	WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName string) (err error)
 }
 
 var _ ModuleManipulation = &Config{}
@@ -449,9 +449,20 @@ func (c *Config) LoadModuleConfig(relativePath string) (cfg ModuleConfig, err er
 }
 
 // WriteModuleConfig writes the configuration of a module
-func (c *Config) WriteModuleConfig(modConfig ModuleConfig, relativePath, name string) (err error) {
-	// todo
-	return nil
+func (c *Config) WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName string) (err error) {
+	fmt.Println("absolutePathAndName: " + absolutePathAndName)
+	configStr, err := toml.Marshal(modConfig)
+	if err != nil {
+		return err
+	}
+	// todo: extract that as a side effect
+	err = os.MkdirAll(absolutePathAndName, 0755)
+	if err != nil {
+		return fmt.Errorf("failed to create directories: %w", err)
+	}
+	filePath := filepath.Join(absolutePathAndName, c.Static.ModuleFileName)
+	fmt.Println("filePath: " + filePath)
+	return c.su.Fs.Write(filePath, configStr)
 }
 
 // Commands contains the actual CLI commands
@@ -542,6 +553,52 @@ func (cmd *Commands) Init(c *cli.Context) error {
 
 	cmd.SystemUtils.Logger.SuccessLn("monorepo successfully initialized at " + cmd.Config.Runtime.ROOT)
 
+	return nil
+}
+
+func (cmd *Commands) Add(c *cli.Context) error {
+	if exists := cmd.Config.RootConfigExists(); !exists {
+		return errors.New("monorepo not found at " + cmd.Config.Runtime.ROOT)
+	}
+	relativePathAndNameInput := c.Args().Get(0)
+	cmd.SystemUtils.Logger.VerboseLn("relativePathAndNameInput: " + relativePathAndNameInput)
+	if relativePathAndNameInput == "" {
+		return errors.New("error: no name provided")
+	}
+	name := filepath.Base(relativePathAndNameInput)
+	cmd.SystemUtils.Logger.VerboseLn("name: " + name)
+	if modules, err := cmd.Config.GetModules([]string{"all"}, []string{}); err != nil {
+		return err
+	} else {
+		for _, module := range modules {
+			if module.Name == name {
+				return errors.New("module with name " + name + " already exists at " + module.RelativePath)
+			}
+		}
+	}
+	newModule := ModuleConfig{
+		Name:         name,
+		RelativePath: relativePathAndNameInput,
+		Template:     "@default",
+		Type:         "executable",
+		Main:         "",
+		Priority:     0,
+		Scripts:      map[string]string{},
+	}
+	absolutePath := filepath.Join(cmd.Config.Runtime.ROOT, relativePathAndNameInput)
+	if err := cmd.Config.WriteModuleConfig(newModule, absolutePath); err != nil {
+		return err
+	}
+	if err := cmd.SystemUtils.Exec.GoCommand(absolutePath, "mod", "init", name); err != nil {
+		return err
+	}
+	if config, err := cmd.Config.LoadRootConfig(); err != nil {
+		return err
+	} else if config.Strategy == "workspace" {
+		if err := cmd.SystemUtils.Exec.GoCommand(cmd.Config.Runtime.ROOT, "work", "use", relativePathAndNameInput); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -849,9 +906,9 @@ func Cli() (err error) {
 				Action: cmd.Init,
 			},
 			{
-				Name:   "list",
-				Usage:  "List all modules of the monorepo",
-				Action: cmd.List,
+				Name:   "add",
+				Usage:  "Add a new module",
+				Action: cmd.Add,
 			},
 			{
 				Name:   "execute",
@@ -874,6 +931,11 @@ func Cli() (err error) {
 				Usage:  "Breaks if targeted modules have vet issues",
 				Action: cmd.VetCI,
 				Flags:  executionFlags,
+			},
+			{
+				Name:   "list",
+				Usage:  "List all modules of the monorepo",
+				Action: cmd.List,
 			},
 			{
 				Name:   "version",

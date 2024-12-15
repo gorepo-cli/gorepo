@@ -97,6 +97,37 @@ gorepo init
 gorepo init some_name
 ```
 
+## gorepo add
+
+### Description
+
+Add a new module to the monorepo.
+
+This command creates a new folder with a `module.toml` and a `go.mod` file in it.
+If the strategy used is a workspace, it will also add the module to the workspace.
+Please note it will add the module at the directory provided from the root of the monorepo,
+not from the current directory.
+
+### Usage
+
+```
+gorepo add [module_name]
+```
+
+### Parameters
+
+No parameters yet.
+
+### Examples
+
+```
+# The most basic way to add a module
+gorepo add my_module
+
+# You can also pass a path to add the module at a specific location
+gorepo add some_folder/my_module
+```
+
 ## gorepo list
 
 ### Description

@@ -12,4 +12,5 @@
   - implemented `vet-ci` under experiment
 - v0.3.0
   - implemented `gorepo vet-ci`
-
+- v0.4.0
+  - implemented `gorepo add`
