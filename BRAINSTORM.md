@@ -1,7 +1,7 @@
 
 
-allow building modules based on templates and community templates
-
+- allow building modules based on templates and community templates
+- the bash and go functions should return the console output and/or errors 
 
 # Roadmap & Brainstorm
 

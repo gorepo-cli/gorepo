@@ -173,6 +173,28 @@ gorepo fmt-ci [--target] [--exclude]
 
 For the usage of the flags, refer to the reference of `gorepo execute`
 
+## gorepo vet-ci
+
+### Description
+
+This command is breaking if `go vet` returns an error in one of the targeted modules.
+This is primary meant to be used in ci pipelines, it does not modify the code or apply changes.
+
+### Usage
+
+```
+gorepo vet-ci [--target] [--exclude]
+```
+
+### Parameters
+
+- `--target` (optional): comma-separated names of modules to target
+- `--exclude` (optional): comma-separated names of modules to exclude
+
+### Exemples
+
+For the usage of the flags, refer to the reference of `gorepo execute`
+
 ## gorepo version
 
 ### Description

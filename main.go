@@ -327,9 +327,20 @@ type RootConfig struct {
 
 // ModuleConfig contains the configuration of a module
 type ModuleConfig struct {
-	Name         string            `toml:"-"` // name of the folder, added at runtime
-	RelativePath string            `toml:"-"` // relative path to the root, added at runtime
-	Scripts      map[string]string `toml:"scripts"`
+	// Module's name (= folder's name), added at runtime
+	Name string `toml:"-"`
+	// Relative path to the root, added at runtime
+	RelativePath string `toml:"-"`
+	// Name of the template (default is @default)
+	Template string `toml:"template"`
+	// Module's type (executable, library)
+	Type string `toml:"type"`
+	// Entry point of the module, if needed to be built
+	Main string `toml:"main"`
+	// Build priority, higher goes first
+	Priority int `toml:"priority"`
+	// List of scripts that can be run through gorepo execute <script_name>
+	Scripts map[string]string `toml:"scripts"`
 }
 
 // RootConfigExists checks if a file work.toml exists at the root
@@ -414,6 +425,9 @@ func (c *Config) GetModules(targets, exclude []string) (modules []ModuleConfig, 
 	}
 	sort.Slice(modules, func(i, j int) bool {
 		return modules[i].Name < modules[j].Name
+	})
+	sort.Slice(modules, func(i, j int) bool {
+		return modules[i].Priority < modules[j].Priority
 	})
 	return modules, nil
 }
@@ -687,7 +701,7 @@ func (cmd *Commands) FmtCI(c *cli.Context) error {
 	for _, module := range modules {
 		path := filepath.Join(cmd.Config.Runtime.ROOT, module.RelativePath)
 		if err := cmd.SystemUtils.Exec.BashCommand(path, script); err != nil {
-			return errors.New("fmt failed in module " + module.Name)
+			return errors.New("error: fmt-ci failed in module " + module.Name)
 		}
 	}
 
@@ -696,11 +710,6 @@ func (cmd *Commands) FmtCI(c *cli.Context) error {
 
 // VetCI implements `gorepo vet-ci`
 func (cmd *Commands) VetCI(c *cli.Context) error {
-	experimental := c.Bool("experimental")
-	if !experimental {
-		return errors.New("this is an experimental feature, use --experimental flag to enable it")
-	}
-
 	if exists := cmd.Config.RootConfigExists(); !exists {
 		return errors.New("monorepo not found at " + cmd.Config.Runtime.ROOT)
 	}
@@ -721,7 +730,7 @@ func (cmd *Commands) VetCI(c *cli.Context) error {
 	}
 
 	if targets[0] == "root" {
-		return errors.New("running fmt in root is not supported")
+		return errors.New("running vet-ci from root is not supported")
 	}
 
 	modules, err := cmd.Config.GetModules(targets, exclude)
@@ -729,12 +738,12 @@ func (cmd *Commands) VetCI(c *cli.Context) error {
 		return err
 	}
 
-	script := "go vet . 2>&1 | grep -q . && exit 1"
+	script := "go vet . || exit 1"
 
 	for _, module := range modules {
 		path := filepath.Join(cmd.Config.Runtime.ROOT, module.RelativePath)
 		if err := cmd.SystemUtils.Exec.BashCommand(path, script); err != nil {
-			return errors.New("vet failed in module " + module.Name)
+			return errors.New("error: vet-ci failed in module " + module.Name)
 		}
 	}
 
@@ -862,7 +871,7 @@ func Cli() (err error) {
 			},
 			{
 				Name:   "vet-ci",
-				Usage:  "[experimental] Breaks if targeted modules have vet issues",
+				Usage:  "Breaks if targeted modules have vet issues",
 				Action: cmd.VetCI,
 				Flags:  executionFlags,
 			},
