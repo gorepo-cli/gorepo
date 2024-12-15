@@ -5,7 +5,7 @@
   - implemented `gorepo list`
   - implemented `gorepo run`
   - implemented `gorepo version`
-- v0.2.0:
+- v0.2.0 (tag lost, consider it v0.3.0):
   - renamed `gorepo run` to `gorepo execute`
   - added gorepo execute --exclude [script_name]
   - implemented `fmt-ci`
