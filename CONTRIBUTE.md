@@ -7,6 +7,7 @@ You can:
 - Share how you wish to use such a tool
 - Share your use cases/feature requests
 - Share bugs and pain points
+- Consult [BRAINSTORM.md](BRAINSTORM.md)
 - Join the [discord](https://discord.gg/dRuqRU7R)
 - Open issues on GitHub
 - Open a PR
