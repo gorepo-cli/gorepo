@@ -18,12 +18,8 @@ builds:
       - "-s -w"
 
 universal_binaries:
-  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_universal"
-    source:
-      - gorepo
-    replacements:
-      darwin_amd64: darwin_universal
-      darwin_arm64: darwin_universal
+  - id: gorepo-universal
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_universal"
 
 release:
   prerelease: auto
@@ -33,15 +29,38 @@ release:
 
 brews:
   - name: gorepo
-    owner: gorepo-cli
-    repo: homebrew-gorepo
     commit_author:
       name: Goreleaser
       email: noreply@goreleaser.com
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    license: "MIT"
     description: "A cli to manage go monorepos"
     homepage: "https://github.com/gorepo-cli/gorepo"
     install: |
       bin.install "gorepo"
+    # Repository to push the generated files to.
+    repository:
+      # Repository owner.
+      #
+      # Templates: allowed.
+      owner: gorepo-cli
+
+      # Repository name.
+      #
+      # Templates: allowed.
+      name: homebrew-gorepo
+
+      # Optionally a branch can be provided.
+      #
+      # Default: default repository branch.
+      # Templates: allowed.
+      branch: master
+
+      # Optionally a token can be provided, if it differs from the token
+      # provided to GoReleaser
+      #
+      # Templates: allowed.
+      token: "{{ .Env.PUBLISHER_TOKEN }}"
 
 archives:
   - id: gorepo-archive
