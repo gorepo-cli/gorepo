@@ -31,4 +31,4 @@ jobs:
           args: release --clean
         env:
           # Use the custom publisher token you created as a secret
-          GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
+          PUBLISHER_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
