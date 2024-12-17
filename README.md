@@ -29,7 +29,7 @@ If you want to share your use cases and affect the direction it is going, **open
 - Commit before running any command to see exactly what you are doing
 - I only test Linux for now, macOS is probably ok, Windows is probably not
 
-# Getting started
+# Homebrew
 
 ## Pre-requisites
 You must have go and git installed.
