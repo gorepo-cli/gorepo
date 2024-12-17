@@ -21,7 +21,7 @@ The CLI should:
 - be transparent to the user regarding what it does behind the hood
 
 If you want to know more about the direction the project is taking, see [BRAINSTORM.md](./BRAINSTORM.md).
-If you want to share your use cases and affect the direction it is going, **open an issue** or join [discord](https://discord.gg/dRuqRU7R).
+If you want to share your use cases and affect the direction it is going, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join [discord](https://discord.gg/dRuqRU7R).
 
 # Disclaimer
 - This is not nearly a v1, it provides only basic features
