@@ -19,7 +19,7 @@ builds:
 
 universal_binaries:
   - id: gorepo-universal
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_universal"
+    name_template: "{{ .ProjectName }}_{{ .Version }}_darwin_universal"
 
 release:
   prerelease: auto
