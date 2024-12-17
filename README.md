@@ -29,36 +29,45 @@ If you want to share your use cases and affect the direction it is going, **open
 - Commit before running any command to see exactly what you are doing
 - I only test Linux for now, macOS is probably ok, Windows is probably not
 
-# Structure of a command
+# Getting started
 
+## Pre-requisites
+You must have go and git installed.
+
+## Install via homebrew
+```bash
+brew tap gorepo-cli/gorepo
+brew install gorepo
 ```
-gorepo [global options] <command> [command options]
+
+Test it is working with:
+```bash
+gorepo version
 ```
+
+Note in some rare cases, if gorepo is not recognized, you may have to add the folder to the path
+
+## Update via homebrew
+```bash
+brew upgrade gorepo
+```
+
+Note you may have to kill local cache:
+```bash
+brew update
+brew uninstall gorepo
+brew cleanup
+brew install gorepo
+```
+
+## Build from source
+
+To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 
 # Pre-requisites
 
 - go: to use the CLI, you need go (used to run go commands)
 - git: to build the project, you need git (used to inject the version at build time)
-
-# Getting started
-
-Gorepo is not yet available on any package manager. You will need to build it yourself:
-- Clone/download the repository
-- Run `make build` to create bin/gorepo
-- Add the bin folder to your PATH
-- As a result, you can now run `gorepo` from anywhere
-- Change code, build, test from anywhere, repeat
-
-Example on Linux:
-```
-vim ~/.bashrc
-
-# add this:
-export PATH="$PATH:/home/my_name/Repositories/gorepo-cli/bin"
-
-# refresh the terminal
-source ~/.bashrc
-```
 
 # Concepts
 
@@ -69,6 +78,12 @@ source ~/.bashrc
 # Reference
 
 The reference contains information that is relevant to the actual commited version on master. Reference for future development and experimental features should be under [ROADMAP.md](./BRAINSTORM.md).
+
+**Structure of a command:**
+
+```
+gorepo [global options] <command> [command options]
+```
 
 ## gorepo init
 

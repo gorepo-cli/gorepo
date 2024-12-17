@@ -17,9 +17,29 @@ Note this file will grow if needed.
 
 Juniors are also welcome to push code (see how we need to add tests, to add new commands, how error messages are hardcoded etc).
 
-# Run the project
+# Build and run from source
 
-See [README.md](README.md)
+- Clone/download the repository
+- Run `make build` to create bin/gorepo
+- Add the bin folder to your PATH
+- As a result, you can now run `gorepodev` from anywhere
+- Change code, build, test from anywhere, repeat
+
+Example on Linux to add the bin folder to your PATH:
+```
+vim ~/.bashrc
+
+# add this:
+export PATH="$PATH:/home/my_name/Repositories/gorepo-cli/bin"
+
+# refresh the terminal
+source ~/.bashrc
+```
+
+Test it is working by typing:
+```bash
+gorepodev version
+```
 
 # How it is built
 
@@ -30,3 +50,11 @@ For now the project is in a single file. I think we should break it only if we s
 Note there is a testkit that allows you to write unit tests for your feature.
 
 I will add more on that here when needed.
+
+# Mock command execution
+
+todo
+
+# Pipeline and homebrew
+
+todo
