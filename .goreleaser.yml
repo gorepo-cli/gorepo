@@ -60,7 +60,7 @@ brews:
       # provided to GoReleaser
       #
       # Templates: allowed.
-      token: PUBLISHER_TOKEN
+      token: GITHUB_TOKEN
 
 archives:
   - id: gorepo-archive
