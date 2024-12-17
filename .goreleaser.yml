@@ -1,0 +1,60 @@
+project_name: gorepo
+
+# The builds section defines how your binaries are compiled.
+builds:
+  - id: gorepo
+    main: ./main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -mod=vendor
+    ldflags:
+      - "-s -w"
+
+# The universal_binaries section will create universal binaries on macOS, merging arm64 & amd64.
+universal_binaries:
+  - id: gorepo-universal
+    builds:
+      - gorepo
+    replacements:
+      darwin_amd64: darwin_universal
+      darwin_arm64: darwin_universal
+
+# The release section controls how the GitHub Release is created.
+release:
+  prerelease: auto
+  github:
+    owner: gorepo-cli
+    name: gorepo
+
+# The brews section tells Goreleaser how to create and publish a Homebrew formula to your tap repository.
+brews:
+  - name: gorepo
+    tap:
+      owner: gorepo-cli
+      name: homebrew-gorepo
+    # Commit author for the formula PR/commit
+    commit_author:
+      name: Goreleaser
+      email: noreply@goreleaser.com
+    # Basic metadata about your project
+    description: "A cli to manage go monorepos"
+    homepage: "https://github.com/gorepo-cli/gorepo"
+    # Optional dependencies
+    # dependencies:
+    #   - name: another_formula
+    install: |
+      bin.install "gorepo"
+
+# Optional: Configure archive settings if you need tarballs, zips, etc.
+archives:
+  - id: gorepo-archive
+    format: tar.gz
+    builds:
+      - gorepo
