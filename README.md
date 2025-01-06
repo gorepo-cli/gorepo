@@ -173,7 +173,7 @@ gorepo execute [--target] [--exclude] [--allow-missing] [script_name]
 ### Parameters
 
 - `script_name`: the name of the script to execute
-- `--target` (optional): comma-separated names of modules to target
+- `--target` (optional): comma-separated names of modules to target, or root
 - `--exclude` (optional): comma-separated names of modules to exclude
 - `--allow-missing` (optional): allows the script to run even if some of the targets does not have the script
 

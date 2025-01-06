@@ -333,8 +333,10 @@ type ModuleConfig struct {
 	RelativePath string `toml:"-"`
 	// Name of the template (default is @default)
 	Template string `toml:"template"`
-	// Module's type (executable, library)
+	// Module's type (executable (can be built and executed), library (can be built), static (can not be built))
 	Type string `toml:"type"`
+	// Language of the module (go, python, node, javascript, etc.)
+	Language string `toml:"language"`
 	// Entry point of the module, if needed to be built
 	Main string `toml:"main"`
 	// Build priority, higher goes first
@@ -665,11 +667,21 @@ func (cmd *Commands) Execute(c *cli.Context) error {
 		cmd.SystemUtils.Logger.VerboseLn("value for flag exclude:      " + strings.Join(exclude, ","))
 	}
 
-	// logic
-
 	if targets[0] == "root" {
-		cmd.SystemUtils.Logger.WarningLn("running script in root not supported yet")
-		// implement here and return
+		rootConfig, err := cmd.Config.LoadRootConfig()
+		if err != nil {
+			return err
+		}
+		path := cmd.Config.Runtime.ROOT
+		script := rootConfig.Scripts[scriptName]
+		if script == "" {
+			cmd.SystemUtils.Logger.InfoLn("script is empty, skipping")
+			return errors.New("There is no script named " + scriptName + " at root")
+		}
+		cmd.SystemUtils.Logger.InfoLn("running script " + scriptName + " at root ")
+		if err := cmd.SystemUtils.Exec.BashCommand(path, script); err != nil {
+			return err
+		}
 		return nil
 	}
 
