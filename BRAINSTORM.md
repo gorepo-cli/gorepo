@@ -7,16 +7,18 @@
 - add tests
 - write a custom 'help' command with some ascii art
 - The CLI could also handle incremental builds, given the user configures a storage
+- run servers in parallel (docker-compose like)
+- run and restart (nodemon like)
 - generate a gitignore file for go repos
 - see how we could handle docker
 - see how we could handle pipelines
 - implement some nodemon feature (`gorepo wath` or `gorepo run --watch`)
 - add timeout
+- add version check call (and a flag --no-check)
 - provide better logging, better verbose logging, summary of operations
 
 ## New Commands
 
-- add:    to add a module `gorepo add new_mod`
 - health: to check the health of the modules (or check), with --fix
 - remove: to remove a module
 - fmt
