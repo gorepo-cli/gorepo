@@ -900,7 +900,7 @@ func Cli() (err error) {
 		&cli.StringFlag{
 			Name:  "target",
 			Value: "all",
-			Usage: "Target specific modules (comma separated)",
+			Usage: "Target specific modules or root (comma separated)",
 		},
 		&cli.StringFlag{
 			Name:  "exclude",
