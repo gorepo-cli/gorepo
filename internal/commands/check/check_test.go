@@ -1,3 +1,3 @@
 package check
 
-// no test for now
+// no need for now
