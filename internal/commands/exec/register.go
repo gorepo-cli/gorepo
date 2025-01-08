@@ -10,7 +10,9 @@ var (
 	name        = "exec"
 	usage       = "Execute a script"
 	usageText   = "gorepo [global_options] [module_name] exec [command_options] <script_name>"
-	description = "(module syntax compatible)"
+	description = `Compatible with module syntax.
+
+Execute a script at the root of the monorepo, or in one, many or all modules. Scripts are declared in the files 'work.toml' and 'module.toml'.`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

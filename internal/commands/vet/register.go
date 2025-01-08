@@ -10,7 +10,10 @@ var (
 	name        = "vet"
 	usage       = "Run go vet, break with --ci (module syntax compatible)"
 	usageText   = "gorepo [global_options] [module_name] vet [command_options] <script_name>"
-	description = "(module syntax compatible)"
+	description = `Compatible with module syntax.
+
+This command runs vet in all targeted modules.
+It breaks if you pass --ci.`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

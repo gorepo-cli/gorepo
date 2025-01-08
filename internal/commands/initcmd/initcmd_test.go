@@ -50,7 +50,7 @@ func TestCommandInit(t *testing.T) {
 	t.Run("should create a go.work file if it is missing", func(t *testing.T) {
 		// todo
 	})
-	t.Run("should use the default name if the user does not select one", func(t *testing.T) {
+	t.Run("should use the folder name if the user does not select one", func(t *testing.T) {
 		// todo
 	})
 	t.Run("should use the name passed as an argument", func(t *testing.T) {

@@ -10,7 +10,8 @@ var (
 	name        = "check"
 	usage       = "Check the configuration"
 	usageText   = "gorepo [global_options] check [command_options]"
-	description = ""
+	description = `Gives information about the configuration.
+In the future it will also analyse the configuration`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

@@ -10,7 +10,11 @@ var (
 	name        = "init"
 	usage       = "Initialize a new monorepo"
 	usageText   = "gorepo [--global_options] init [--command_options] [monorepo_name]"
-	description = ""
+	description = `Initialize a new monorepo at the working directory.
+
+This command creates two primary files:
+- 'work.toml' at the work directory
+- 'go.work' file if the strategy is set as 'workspace' and one does not exist yet. This runs 'go work init' behind the hood`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

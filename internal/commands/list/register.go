@@ -10,7 +10,7 @@ var (
 	name        = "list"
 	usage       = "List modules"
 	usageText   = "gorepo [--global_options] list [--command_options]"
-	description = ""
+	description = `List all modules of the monorepo. Formally a module is a folder with a module.toml file in it, regardless of the language it uses.`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

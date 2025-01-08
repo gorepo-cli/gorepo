@@ -10,7 +10,7 @@ var (
 	name        = "version"
 	usage       = "Print version"
 	usageText   = "gorepo [global_options] version [command_options]"
-	description = "(module syntax compatible)"
+	description = ""
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

@@ -10,7 +10,10 @@ var (
 	name        = "fmt"
 	usage       = "Run go fmt, break with --ci (module syntax compatible)"
 	usageText   = "gorepo [global_options] [module_name] fmt [command_options]"
-	description = "(module syntax compatible)"
+	description = `Compatible with module syntax.
+
+This command runs fmt in all targeted modules.
+It breaks without formating the files if you pass --ci.`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {

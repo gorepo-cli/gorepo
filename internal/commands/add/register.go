@@ -9,8 +9,10 @@ import (
 var (
 	name        = "add"
 	usage       = "Add a module"
-	usageText   = "gorepo [global_options] add [command_options] <module_name>"
-	description = ""
+	usageText   = "gorepo [--global_options] add [--command_options] <module_name>"
+	description = `Add a new module to the monorepo.
+
+This command creates a new folder with 2 file, 'module.toml' and 'go.mod'. It also adds the module to the go workspace. You can pass a path ending with the module name.`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {
