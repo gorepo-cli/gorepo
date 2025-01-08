@@ -35,8 +35,10 @@ func RegisterCommand(dependencies *config.Dependencies) *cli.Command {
 
 func RegisterModuleCommand(moduleName string, dependencies *config.Dependencies) *cli.Command {
 	return &cli.Command{
-		Name:   name,
-		Hidden: true,
+		Name:        name,
+		Usage:       usage,
+		UsageText:   usageText,
+		Description: description,
 		Action: func(c *cli.Context) error {
 			globalFlags := flags.ExtractGlobalFlags(c)
 			cmdFlags := flags.ExtractCommandFlags(c)
