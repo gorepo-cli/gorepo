@@ -33,6 +33,9 @@ func (m *MockTerminal) AskBool(question, choices, defaultValue string, l logger.
 
 func (m *MockTerminal) AskString(question, choices, defaultValue string, l logger.Methods) (response string, err error) {
 	if answer, exists := m.QuestionsAnswersString[question]; exists {
+		if answer == "" {
+			return defaultValue, nil
+		}
 		return answer, nil
 	}
 	return "", errors.New(fmt.Sprintf("question `%s` not in the test, provide an answer", question))
