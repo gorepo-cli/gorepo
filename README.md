@@ -18,7 +18,7 @@
 - You can use the name of a module as a command, to execute commands in their context
 - You can run all commands from anywhere (no need to CD all the time)
 - You can run scripts across multiple or all modules at once with a priority
-- You can break in the CI on fmt, vet and health checks (using the flag `--ci`)
+- You can break in the CI on fmt using the flag `--ci`
 - You can define pipelines
 
 If you want to know more about the direction the project is taking, see [BRAINSTORM.md](./BRAINSTORM.md).
