@@ -38,5 +38,6 @@ func Execute(l logger.Methods) (err error) {
 			Subcommands: commands.RegisterModuleCommands(module.Name, dependencies),
 		})
 	}
+
 	return app.Run(os.Args)
 }

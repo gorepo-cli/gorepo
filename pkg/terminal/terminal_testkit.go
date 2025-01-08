@@ -13,7 +13,7 @@ type MockTerminal struct {
 
 var _ Methods = &MockTerminal{}
 
-func NewMockOs(wd string, qABool map[string]bool, qAString map[string]string) *MockTerminal {
+func NewMockTerminal(wd string, qABool map[string]bool, qAString map[string]string) *MockTerminal {
 	return &MockTerminal{
 		QuestionsAnswersBool:   qABool,
 		QuestionsAnswersString: qAString,

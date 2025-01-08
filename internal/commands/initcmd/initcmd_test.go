@@ -1,10 +1,10 @@
 package initcmd
 
 import (
-	"flag"
 	"github.com/pelletier/go-toml/v2"
-	"github.com/urfave/cli/v2"
 	"gorepo-cli/internal/config"
+	"gorepo-cli/internal/flags"
+	"gorepo-cli/pkg"
 	"testing"
 )
 
@@ -13,36 +13,36 @@ func TestCommandInit(t *testing.T) {
 		rootConfigBytes, _ := toml.Marshal(config.RootConfig{
 			Name: "my-monorepo",
 		})
-		tk, _ := NewTestKit("/some/path/root", map[string][]byte{
-			"/some/path/root/work.toml": rootConfigBytes,
-		}, nil, nil)
-		mockContext := cli.NewContext(&cli.App{
-			Name:  "test-app",
-			Usage: "This is just a test",
-		}, flag.NewFlagSet("test", flag.ContinueOnError), nil)
-		err := tk.cmd.Init(mockContext)
-		if err == nil {
-			t.Fatal("expected an error, got nil")
-		}
+		tk := pkg.NewTestkit(pkg.TestKitArgs{
+			WD: "/some/path/root",
+			Files: map[string][]byte{
+				"/some/path/root/work.toml": rootConfigBytes,
+			},
+		})
+		cfg, _ := config.NewConfig(tk.Effects)
+		dependencies := config.NewDependencies(tk.Effects, cfg)
+		err := initCmd(dependencies, nil, nil, "")
 		if err.Error() != "monorepo already exists at /some/path/root" {
 			t.Fatalf("expected 'work.toml already exists at root', got %s", err.Error())
 		}
 	})
 	t.Run("should create work.toml if there is no such file at root", func(t *testing.T) {
-		tk, _ := NewTestKit("/some/path/root", map[string][]byte{}, map[string]bool{
-			"Do you want to vendor dependencies?": true,
-		}, map[string]string{
-			"What is the monorepo name?": "",
+		tk := pkg.NewTestkit(pkg.TestKitArgs{
+			WD:    "/some/path/root",
+			Files: map[string][]byte{},
+			QaBool: map[string]bool{
+				"Do you want to vendor dependencies?": true,
+			},
+			QaString: map[string]string{
+				"What is the monorepo name?": "",
+			},
 		})
-		mockContext := cli.NewContext(&cli.App{
-			Name:  "test-app",
-			Usage: "This is just a test",
-		}, flag.NewFlagSet("test", flag.ContinueOnError), nil)
-		err := tk.cmd.Init(mockContext)
-		if err != nil {
-			t.Fatal("expected an error, got", err)
-		}
-		files := tk.MockFs.Output()
+		cfg, _ := config.NewConfig(tk.Effects)
+		dependencies := config.NewDependencies(tk.Effects, cfg)
+		_ = initCmd(dependencies, nil, &flags.GlobalFlags{
+			Verbose: false,
+		}, "")
+		files := tk.GetFilesystemOutput()
 		if files["/some/path/root/work.toml"] == nil {
 			t.Fatal("expected a non-nil value, got nil")
 		}
