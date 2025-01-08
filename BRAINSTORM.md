@@ -19,15 +19,15 @@
 
 ## New Commands
 
-- health: to check the health of the modules (or check), with --fix
+- health: to check the health of the modules (or check), with --fix and --ci
 - remove: to remove a module
-- fmt
-- vet
+- fmt option --ci
+- vet option it is always --ci
 - test
 - get
 - build   (check how to set priority)
 - run     (check how to know the path + priority)
-- tidy
+- tidy option --ci
 - `gorepo check` flag `--fix` (or health)
 - `gorepo tree` to display the tree of dependencies of the monorepo
 - `gorepo update` to update the CLI

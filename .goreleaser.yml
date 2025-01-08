@@ -3,7 +3,7 @@ project_name: gorepo
 
 builds:
   - id: gorepo
-    main: ./main.go
+    main: ./cmd/gorepo/main.go
     env:
       - CGO_ENABLED=0
     goos:
@@ -15,7 +15,7 @@ builds:
     flags:
       - -mod=vendor
     ldflags:
-      - "-s -w -X 'main.version={{ .Version }}'"
+      - "-s -w -X 'version._version={{ .Version }}'"
 
 universal_binaries:
   - id: gorepo-universal
@@ -34,7 +34,7 @@ brews:
       email: noreply@goreleaser.com
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     license: "MIT"
-    description: "A cli to manage go monorepos"
+    description: "A cli to manage Go monorepos"
     homepage: "https://github.com/gorepo-cli/gorepo"
     install: |
       bin.install "gorepo"

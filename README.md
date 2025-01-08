@@ -82,8 +82,12 @@ The reference contains information that is relevant to the actual commited versi
 **Structure of a command:**
 
 ```
-gorepo [global options] <command> [command options]
+gorepo [global options] <optional_module> <command> [command options]
 ```
+
+- <module_name>: Optional. Specifies the module to execute commands within. If omitted, commands will target the root.
+- <command>: The CLI command to execute.
+[options]: Command-specific flags and options.
 
 ## gorepo init
 
@@ -155,46 +159,47 @@ List all modules of the monorepo. Formally a module is a folder with a `module.t
 gorepo list
 ```
 
-## gorepo execute
+## gorepo exec
 
 ### Description
 
-Execute a script across all targeted modules.
-
-By default, it runs all the scripts (bash scripts) defined in `module.toml` files that are targeted.
-It will not run if the script is missing in one of the targeted module is missing, unless you pass the flag `--allow-missing`.
+Executes a script at the root of the monorepo, or in one, many or all modules.
 
 ### Usage
 
 ```
-gorepo execute [--target] [--exclude] [--allow-missing] [script_name]
+gorepo [module_name] exec [--target] [--exclude] [--allow-missing] [script_name]
 ```
 
 ### Parameters
 
+- `module_name`: the name of the module to execute the script in (put none to execute at the root)
 - `script_name`: the name of the script to execute
-- `--target` (optional): comma-separated names of modules to target, or root
+- `--target` (optional): comma-separated names of modules to target, or all
 - `--exclude` (optional): comma-separated names of modules to exclude
 - `--allow-missing` (optional): allows the script to run even if some of the targets does not have the script
 
 ### Examples
 
 ```
-# Will execute 'my_command' script in all modules.
-# It will not run if it is missing in one or more modules.
-gorepo execute my_command
+# Executes 'my_command' script at the root
+gorepo exec my_command
 
-# Will execute 'my_command' script in all modules that have it
-gorepo execute --allow-missing my_command
+# Executes 'my_command' script in module named mod1
+gorepo mod1 exec my_command
 
-# Will execute 'my_command' script in modules 1 and 2
-gorepo execute --target=mod1,mod2 my_command
+# Executes 'my_command' accross all modules
+# Will fail if the script is missing in some modules
+gorepo exec --target=all my_command
 
-# Will execute 'my_command' script in work.toml at the root
-gorepo execute --target=root my_command
+# Executes 'my_command' script in all modules that have it
+gorepo exec --target=all --allow-missing my_command
 
-# Will execute 'my_command' script in all modules except in module X
-gorepo execute --exclude=modX my_command
+# Executes 'my_command' script in modules 1 and 2
+gorepo exec --target=mod1,mod2 my_command
+
+# Executes 'my_command' script in all modules except in module X
+gorepo exec --target=all --exclude=modX my_command
 ```
 
 ## gorepo fmt-ci
@@ -207,11 +212,12 @@ This is primary meant to be used in ci pipelines, it does not modify the code or
 ### Usage
 
 ```
-gorepo fmt-ci [--target] [--exclude]
+gorepo [module_name] fmt-ci [--target] [--exclude]
 ```
 
 ### Parameters
 
+- `module_name`: the name of the module to execute the script in (put none to execute at the root)
 - `--target` (optional): comma-separated names of modules to target
 - `--exclude` (optional): comma-separated names of modules to exclude
 
@@ -229,7 +235,7 @@ This is primary meant to be used in ci pipelines, it does not modify the code or
 ### Usage
 
 ```
-gorepo vet-ci [--target] [--exclude]
+gorepo [module_name] vet-ci [--target] [--exclude]
 ```
 
 ### Parameters

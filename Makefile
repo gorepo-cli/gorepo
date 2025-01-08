@@ -4,4 +4,4 @@ test:
 	go test ./...
 
 build:
-	go build -ldflags="-X 'main.version=$(VERSION)'" -o bin/gorepodev .
+	go build -ldflags="-X 'version._version=$(VERSION)'" -o bin/gorepo_ ./cmd/gorepo/main.go

@@ -1,15 +1,16 @@
-package main
+package initcmd
 
 import (
 	"flag"
 	"github.com/pelletier/go-toml/v2"
 	"github.com/urfave/cli/v2"
+	"gorepo-cli/internal/config"
 	"testing"
 )
 
 func TestCommandInit(t *testing.T) {
-	t.Run("should return an error if a work.toml already exists at root", func(t *testing.T) {
-		rootConfigBytes, _ := toml.Marshal(RootConfig{
+	t.Run("should return an error if work.toml already exists", func(t *testing.T) {
+		rootConfigBytes, _ := toml.Marshal(config.RootConfig{
 			Name: "my-monorepo",
 		})
 		tk, _ := NewTestKit("/some/path/root", map[string][]byte{
@@ -27,7 +28,7 @@ func TestCommandInit(t *testing.T) {
 			t.Fatalf("expected 'work.toml already exists at root', got %s", err.Error())
 		}
 	})
-	t.Run("should create a new work.toml if there is no such file at root", func(t *testing.T) {
+	t.Run("should create work.toml if there is no such file at root", func(t *testing.T) {
 		tk, _ := NewTestKit("/some/path/root", map[string][]byte{}, map[string]bool{
 			"Do you want to vendor dependencies?": true,
 		}, map[string]string{
