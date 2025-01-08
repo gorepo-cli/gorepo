@@ -44,7 +44,7 @@ func vet(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 	for _, module := range modules {
 		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.RelativePath)
 		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
-			return errors.New("error: vet-ci failed in module " + module.Name)
+			return errors.New("error: vet --ci failed in module " + module.Name)
 		}
 	}
 

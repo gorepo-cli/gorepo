@@ -244,7 +244,7 @@ gorepo fmt --ci
 
 ```
 NAME:
-   gorepo vet - Run go vet, break with --ci (module syntax compatible)
+   gorepo vet - Run go vet, breaks if needed (module syntax compatible)
 
 USAGE:
    gorepo [global_options] [module_name] vet [command_options] <script_name>
@@ -252,13 +252,11 @@ USAGE:
 DESCRIPTION:
    Compatible with module syntax.
 
-   This command runs vet in all targeted modules.
-   It breaks if you pass --ci.
+   This command runs vet in all targeted modules and breaks if vet breaks.
 
 OPTIONS:
    --target value   Target specific modules or root (comma separated) (default: "root")
    --exclude value  Exclude specific modules (comma separated)
-   --ci             Enable mode CI (default: false)
    --help, -h       show help
 ```
 
