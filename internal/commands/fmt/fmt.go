@@ -8,8 +8,6 @@ import (
 	"strings"
 )
 
-// todo: broken because of ci
-
 func fmt(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
 	if exists := dependencies.Config.RootConfigExists(); !exists {
 		return errors.New("monorepo not found at " + dependencies.Config.Runtime.ROOT)
