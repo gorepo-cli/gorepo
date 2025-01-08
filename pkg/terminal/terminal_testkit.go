@@ -6,12 +6,16 @@ import (
 	"gorepo-cli/pkg/logger"
 )
 
+type MockMethods interface {
+	Methods
+}
+
 type MockTerminal struct {
 	QuestionsAnswersBool   map[string]bool
 	QuestionsAnswersString map[string]string
 }
 
-var _ Methods = &MockTerminal{}
+var _ MockMethods = &MockTerminal{}
 
 func NewMockTerminal(wd string, qABool map[string]bool, qAString map[string]string) *MockTerminal {
 	return &MockTerminal{

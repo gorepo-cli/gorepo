@@ -10,11 +10,16 @@ type MockCommand struct {
 	// Err     error
 }
 
+type MockMethods interface {
+	Methods
+	Output() []MockCommand
+}
+
 type MockExecutor struct {
 	Commands []MockCommand
 }
 
-var _ Methods = &MockExecutor{}
+var _ MockMethods = &MockExecutor{}
 
 func NewMockExecutor() *MockExecutor {
 	return &MockExecutor{

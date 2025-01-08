@@ -9,12 +9,17 @@ import (
 	"time"
 )
 
+type MockMethods interface {
+	Methods
+	Output() map[string][]byte
+}
+
 type MockFileSystem struct {
 	Files map[string][]byte
 	Wd    string
 }
 
-var _ Methods = &MockFileSystem{}
+var _ MockMethods = &MockFileSystem{}
 
 func NewMockFilesystem(files map[string][]byte, wd string) *MockFileSystem {
 	return &MockFileSystem{
@@ -138,10 +143,10 @@ func (mockTime) String() string         { return "mockTime" }
 func (mockTime) IsZero() bool           { return true }
 func (mockTime) Before(t mockTime) bool { return false }
 
-func (m *MockFileSystem) Output() map[string][]byte {
-	return m.Files
-}
-
 func (m *MockFileSystem) GetWd() (string, error) {
 	return m.Wd, nil
+}
+
+func (m *MockFileSystem) Output() map[string][]byte {
+	return m.Files
 }

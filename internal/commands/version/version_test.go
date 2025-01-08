@@ -12,16 +12,16 @@ func TestCommandVersion(t *testing.T) {
 		rootConfigBytes, _ := toml.Marshal(config.RootConfig{
 			Name: "my-monorepo",
 		})
-		tk := pkg.NewTestkit(pkg.TestKitArgs{
+		effects := pkg.NewTestkit(pkg.TestKitArgs{
 			WD: "/some/path/root",
 			Files: map[string][]byte{
 				"/some/path/root/work.toml": rootConfigBytes,
 			},
 		})
-		cfg, _ := config.NewConfig(tk.Effects)
-		dependencies := config.NewDependencies(tk.Effects, cfg)
+		cfg, _ := config.NewConfig(effects.ToEffects())
+		dependencies := config.NewDependencies(effects.ToEffects(), cfg)
 		_ = version(dependencies, nil, nil)
-		logs := tk.GetLoggerOutput()
+		logs := effects.Logger.Output()
 		if logs[0] != "DEFAULT: dev" {
 			t.Fatalf("Expected %s, got %s", "dev", logs[0])
 		}

@@ -21,22 +21,34 @@ type TestKitResponse struct {
 	GetExecutorOutput   func() []executor.MockCommand
 }
 
-func NewTestkit(args TestKitArgs) (tk *TestKitResponse) {
+type MockEffects struct {
+	Executor   executor.MockMethods
+	Filesystem filesystem.MockMethods
+	Logger     logger.MockMethods
+	Terminal   terminal.MockMethods
+}
+
+// a bit naive
+func (mock *MockEffects) ToEffects() *Effects {
+	return &Effects{
+		Executor:   mock.Executor,
+		Filesystem: mock.Filesystem,
+		Logger:     mock.Logger,
+		Terminal:   mock.Terminal,
+	}
+}
+
+func NewTestkit(args TestKitArgs) (effects *MockEffects) {
 	var (
 		_executor   = executor.NewMockExecutor()
 		_filesystem = filesystem.NewMockFilesystem(args.Files, args.WD)
 		_logger     = logger.NewMockLogger()
 		_terminal   = terminal.NewMockTerminal(args.WD, args.QaBool, args.QaString)
 	)
-	return &TestKitResponse{
-		Effects: &Effects{
-			Executor:   _executor,
-			Filesystem: _filesystem,
-			Logger:     _logger,
-			Terminal:   _terminal,
-		},
-		GetExecutorOutput:   _executor.Output,
-		GetFilesystemOutput: _filesystem.Output,
-		GetLoggerOutput:     _logger.Output,
+	return &MockEffects{
+		Executor:   _executor,
+		Filesystem: _filesystem,
+		Logger:     _logger,
+		Terminal:   _terminal,
 	}
 }

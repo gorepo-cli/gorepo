@@ -13,21 +13,21 @@ func TestCommandInit(t *testing.T) {
 		rootConfigBytes, _ := toml.Marshal(config.RootConfig{
 			Name: "my-monorepo",
 		})
-		tk := pkg.NewTestkit(pkg.TestKitArgs{
+		effects := pkg.NewTestkit(pkg.TestKitArgs{
 			WD: "/some/path/root",
 			Files: map[string][]byte{
 				"/some/path/root/work.toml": rootConfigBytes,
 			},
 		})
-		cfg, _ := config.NewConfig(tk.Effects)
-		dependencies := config.NewDependencies(tk.Effects, cfg)
+		cfg, _ := config.NewConfig(effects.ToEffects())
+		dependencies := config.NewDependencies(effects.ToEffects(), cfg)
 		err := initCmd(dependencies, nil, nil, "")
 		if err.Error() != "monorepo already exists at /some/path/root" {
 			t.Fatalf("expected 'work.toml already exists at root', got %s", err.Error())
 		}
 	})
 	t.Run("should create work.toml if there is no such file at root", func(t *testing.T) {
-		tk := pkg.NewTestkit(pkg.TestKitArgs{
+		effects := pkg.NewTestkit(pkg.TestKitArgs{
 			WD:    "/some/path/root",
 			Files: map[string][]byte{},
 			QaBool: map[string]bool{
@@ -37,12 +37,12 @@ func TestCommandInit(t *testing.T) {
 				"What is the monorepo name?": "",
 			},
 		})
-		cfg, _ := config.NewConfig(tk.Effects)
-		dependencies := config.NewDependencies(tk.Effects, cfg)
+		cfg, _ := config.NewConfig(effects.ToEffects())
+		dependencies := config.NewDependencies(effects.ToEffects(), cfg)
 		_ = initCmd(dependencies, nil, &flags.GlobalFlags{
 			Verbose: false,
 		}, "")
-		files := tk.GetFilesystemOutput()
+		files := effects.Filesystem.Output()
 		if files["/some/path/root/work.toml"] == nil {
 			t.Fatal("expected a non-nil value, got nil")
 		}

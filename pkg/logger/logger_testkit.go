@@ -4,7 +4,12 @@ type MockLogger struct {
 	Messages []string
 }
 
-var _ Methods = &MockLogger{}
+type MockMethods interface {
+	Methods
+	Output() []string
+}
+
+var _ MockMethods = &MockLogger{}
 
 func NewMockLogger() *MockLogger {
 	return &MockLogger{
