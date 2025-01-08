@@ -43,8 +43,14 @@ func fmt(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 
 	for _, module := range modules {
 		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.RelativePath)
-		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
-			return errors.New("error: fmt-ci failed in module " + module.Name)
+		if cmdFlags.Ci == true {
+			if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
+				return errors.New("error: fmt failed in module " + module.Name)
+			}
+		} else {
+			if err := dependencies.Effects.Executor.Go(path, "fmt"); err != nil {
+				return errors.New("error: fmt failed in module " + module.Name)
+			}
 		}
 	}
 
