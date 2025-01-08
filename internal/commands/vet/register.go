@@ -25,6 +25,9 @@ func RegisterCommand(dependencies *config.Dependencies) *cli.Command {
 		Action: func(c *cli.Context) error {
 			globalFlags := flags.ExtractGlobalFlags(c)
 			cmdFlags := flags.ExtractCommandFlags(c)
+			if cmdFlags.Target == "root" {
+				cmdFlags.Target = "all"
+			}
 			return vet(dependencies, cmdFlags, globalFlags)
 		},
 		Flags: append(flags.ExecutionGroup, flags.Ci),
