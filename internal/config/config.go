@@ -170,7 +170,7 @@ func (c *Config) GetModules(targets, exclude []string) (modules []ModuleConfig, 
 		return modules[i].Name < modules[j].Name
 	})
 	sort.Slice(modules, func(i, j int) bool {
-		return modules[i].Priority < modules[j].Priority
+		return modules[i].Priority > modules[j].Priority
 	})
 	return modules, nil
 }
