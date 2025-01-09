@@ -18,10 +18,10 @@ type Methods interface {
 
 var (
 	FatalColor   = color.New(color.FgRed).SprintFunc()
-	WarningColor = color.New(color.FgYellow).SprintFunc()
+	WarningColor = color.New(color.FgHiMagenta).SprintFunc()
 	VerboseColor = color.New(color.FgHiBlack).SprintFunc()
-	SuccessColor = color.New(color.FgGreen).SprintFunc()
 	InfoColor    = color.New(color.FgCyan).SprintFunc()
+	SuccessColor = color.New(color.FgGreen).SprintFunc()
 )
 
 type Logger struct {
@@ -35,7 +35,7 @@ func NewLogger() *Logger {
 }
 
 func (l *Logger) FatalLn(msg string) {
-	l.Println(FatalColor(msg))
+	l.Println(FatalColor("the blue llama ran into an error: " + msg))
 }
 
 func (l *Logger) WarningLn(msg string) {
@@ -43,15 +43,15 @@ func (l *Logger) WarningLn(msg string) {
 }
 
 func (l *Logger) VerboseLn(msg string) {
-	l.Logger.Println(VerboseColor(msg))
-}
-
-func (l *Logger) SuccessLn(msg string) {
-	l.Logger.Println(SuccessColor(msg))
+	l.Logger.Println(VerboseColor("the blue llama gossips: " + msg))
 }
 
 func (l *Logger) InfoLn(msg string) {
 	l.Logger.Println(InfoColor(msg))
+}
+
+func (l *Logger) SuccessLn(msg string) {
+	l.Logger.Println(SuccessColor(msg))
 }
 
 func (l *Logger) DefaultLn(msg string) {
