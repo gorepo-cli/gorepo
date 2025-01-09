@@ -1,7 +1,6 @@
 package execute
 
 import (
-	"fmt"
 	"github.com/urfave/cli/v2"
 	"gorepo-cli/internal/commands"
 	"gorepo-cli/internal/config"
@@ -12,7 +11,6 @@ import (
 )
 
 func Execute(l logger.Methods) (err error) {
-	fmt.Println("Starting gorepo")
 	effects := pkg.NewEffects(l)
 	cfg, err := config.NewConfig(effects)
 	if err != nil {
@@ -27,18 +25,20 @@ func Execute(l logger.Methods) (err error) {
 		Flags:    flags.GlobalGroup,
 	}
 
-	modules, err := cfg.GetModules([]string{"all"}, nil)
-	if err != nil {
-		return err
-	}
+	if exists := cfg.RootConfigExists(); exists == true {
+		modules, err := cfg.GetModules([]string{"all"}, nil)
+		if err != nil {
+			return err
+		}
 
-	for _, module := range modules {
-		module := module
-		app.Commands = append(app.Commands, &cli.Command{
-			Name:        module.Name,
-			Hidden:      true,
-			Subcommands: commands.RegisterModuleCommands(module.Name, dependencies),
-		})
+		for _, module := range modules {
+			module := module
+			app.Commands = append(app.Commands, &cli.Command{
+				Name:        module.Name,
+				Hidden:      true,
+				Subcommands: commands.RegisterModuleCommands(module.Name, dependencies),
+			})
+		}
 	}
 
 	return app.Run(os.Args)
