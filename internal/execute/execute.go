@@ -1,6 +1,7 @@
 package execute
 
 import (
+	"fmt"
 	"github.com/urfave/cli/v2"
 	"gorepo-cli/internal/commands"
 	"gorepo-cli/internal/config"
@@ -11,6 +12,7 @@ import (
 )
 
 func Execute(l logger.Methods) (err error) {
+	fmt.Println("Starting gorepo")
 	effects := pkg.NewEffects(l)
 	cfg, err := config.NewConfig(effects)
 	if err != nil {
