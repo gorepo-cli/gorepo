@@ -15,7 +15,7 @@ builds:
     flags:
       - -mod=vendor
     ldflags:
-      - "-s -w -X 'version._version={{ .Version }}'"
+      - "-s -w -X 'gorepo-cli/internal/commands/version.Version={{ .Version }}'"
 
 universal_binaries:
   - id: gorepo-universal

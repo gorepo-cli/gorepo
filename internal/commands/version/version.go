@@ -5,10 +5,10 @@ import (
 	"gorepo-cli/internal/flags"
 )
 
-// _version is injected at build time
-var _version = "dev"
+// Version is injected at build time
+var Version = "dev"
 
 func version(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
-	dependencies.Effects.Logger.DefaultLn(_version)
+	dependencies.Effects.Logger.DefaultLn(Version)
 	return nil
 }
