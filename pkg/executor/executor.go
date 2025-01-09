@@ -31,7 +31,7 @@ func (x *Executor) Bash(absolutePath, script string) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("failed to run command in %s: %w", absolutePath, err)
+		return fmt.Errorf("failed to run script at %s with the error: %w", absolutePath, err)
 	}
 	return nil
 }

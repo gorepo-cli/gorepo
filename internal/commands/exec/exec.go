@@ -88,21 +88,29 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 			strings.Join(modulesWithoutScript, ", ")))
 	}
 
+	var nSuccess = 0
+	var nSkipped = 0
+
 	for _, module := range modules {
 		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.RelativePath)
 		script := module.Scripts[scriptName]
 
 		if script == "" {
-			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("the blue llama is skipping the script for the module %s", module.Name))
+			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("the blue llama is skipping module %s (no script)", module.Name))
+			nSkipped++
 			continue
 		}
 
-		dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running the script for the module %s", module.Name))
-
+		dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is now going to run the script for module %s", module.Name))
 		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
+			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module %s, be aware it may have run for other modules", module.Name))
 			return err
 		}
+
+		nSuccess++
 	}
+
+	dependencies.Effects.Logger.SuccessLn(fmt.Sprintf("the blue llama gracefully finished, it targeted %s, executed %s and skipped %s", strconv.Itoa(len(modules)), strconv.Itoa(nSuccess), strconv.Itoa(nSkipped)))
 
 	return nil
 }
