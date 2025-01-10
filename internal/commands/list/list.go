@@ -21,9 +21,9 @@ func list(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 		dependencies.Effects.Logger.InfoLn("no modules found")
 	} else {
 		var buf bytes.Buffer
-		w := tabwriter.NewWriter(&buf, 1, 1, 9, ' ', 0)
+		w := tabwriter.NewWriter(&buf, 1, 1, 6, ' ', 0)
 		for _, module := range modules {
-			_, _ = fmt.Fprintln(w, fmt.Sprintf("%s\t%d\t%s\t%s\t%s\t", module.Name, module.Priority, module.Type, module.Template, module.Language))
+			_, _ = fmt.Fprintln(w, fmt.Sprintf("%s\t%s\t%d\t%s\t%s\t%s\t", module.Name, module.RelativePath, module.Priority, module.Type, module.Template, module.Language))
 		}
 		_ = w.Flush()
 		for _, line := range bytes.Split(buf.Bytes(), []byte("\n")) {
