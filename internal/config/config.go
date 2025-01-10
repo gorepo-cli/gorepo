@@ -97,13 +97,40 @@ func (c *Config) RootConfigExists() bool {
 }
 
 func (c *Config) GetRootConfig() (cfg RootConfig, err error) {
+	cfgRaw := &rootConfigRaw{}
 	file, err := c.Effects.Filesystem.Read(filepath.Join(c.Runtime.ROOT, c.Static.RootFileName))
 	if err != nil {
 		return cfg, err
 	}
-	err = toml.Unmarshal(file, &cfg)
+	err = toml.Unmarshal(file, &cfgRaw)
 	if err != nil {
 		return cfg, err
+	}
+	// todo: duplicating everything one by one is naive
+	cfg.Name = cfgRaw.Name
+	cfg.Version = cfgRaw.Version
+	cfg.Strategy = cfgRaw.Strategy
+	cfg.Vendor = cfgRaw.Vendor
+	for scriptName, script := range cfgRaw.Scripts {
+		if _, ok := script.(string); ok {
+			if cfg.Scripts == nil {
+				cfg.Scripts = make(map[string]Pipeline)
+			}
+			cfg.Scripts[scriptName] = []string{script.(string)}
+		} else if _, ok := script.([]interface{}); ok {
+			if cfg.Scripts == nil {
+				cfg.Scripts = make(map[string]Pipeline)
+			}
+			var pipeline []string
+			for _, item := range script.([]interface{}) {
+				if str, ok := item.(string); ok {
+					pipeline = append(pipeline, str)
+				} else {
+					return cfg, fmt.Errorf("invalid script format in %s: non-string value found", scriptName)
+				}
+			}
+			cfg.Scripts[scriptName] = pipeline
+		}
 	}
 	return cfg, nil
 }
@@ -176,14 +203,44 @@ func (c *Config) GetModules(targets, exclude []string) (modules []ModuleConfig, 
 }
 
 func (c *Config) GetModuleConfig(relativePath string) (cfg ModuleConfig, err error) {
+	cfgRaw := &moduleConfigRaw{}
 	path := filepath.Join(c.Runtime.ROOT, relativePath, c.Static.ModuleFileName)
 	file, err := c.Effects.Filesystem.Read(path)
 	if err != nil {
 		return cfg, err
 	}
-	err = toml.Unmarshal(file, &cfg)
+	err = toml.Unmarshal(file, &cfgRaw)
 	if err != nil {
 		return cfg, err
+	}
+	// todo: duplicating everything one by one is naive
+	cfg.Name = cfgRaw.Name
+	cfg.RelativePath = cfgRaw.RelativePath
+	cfg.Template = cfgRaw.Template
+	cfg.Type = cfgRaw.Type
+	cfg.Language = cfgRaw.Language
+	cfg.Main = cfgRaw.Main
+	cfg.Priority = cfgRaw.Priority
+	for scriptName, script := range cfgRaw.Scripts {
+		if _, ok := script.(string); ok {
+			if cfg.Scripts == nil {
+				cfg.Scripts = make(map[string]Pipeline)
+			}
+			cfg.Scripts[scriptName] = []string{script.(string)}
+		} else if _, ok := script.([]interface{}); ok {
+			if cfg.Scripts == nil {
+				cfg.Scripts = make(map[string]Pipeline)
+			}
+			var pipeline []string
+			for _, item := range script.([]interface{}) {
+				if str, ok := item.(string); ok {
+					pipeline = append(pipeline, str)
+				} else {
+					return cfg, fmt.Errorf("invalid script format in %s: non-string value found", scriptName)
+				}
+			}
+			cfg.Scripts[scriptName] = pipeline
+		}
 	}
 	cfg.Name = filepath.Base(relativePath)
 	cfg.RelativePath = relativePath

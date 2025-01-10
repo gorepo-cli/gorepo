@@ -37,13 +37,16 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 
 		path := dependencies.Config.Runtime.ROOT
 		script := rootConfig.Scripts[scriptName]
-		if script == "" {
+		if len(script) == 0 {
 			return errors.New(fmt.Sprintf("there is no script named '%s' at root", scriptName))
 		}
 
-		dependencies.Effects.Logger.InfoLn("running script " + scriptName + " at root ")
-		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
-			return err
+		for _, unitScript := range script {
+			// todo, log potential errors and log steps
+			dependencies.Effects.Logger.InfoLn("running script " + scriptName + " at root ")
+			if err := dependencies.Effects.Executor.Bash(path, unitScript); err != nil {
+				return err
+			}
 		}
 
 		return nil
@@ -66,7 +69,7 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 	var modulesWithoutScript []string
 
 	for _, module := range modules {
-		if _, ok := module.Scripts[scriptName]; !ok || module.Scripts[scriptName] == "" {
+		if _, ok := module.Scripts[scriptName]; !ok || module.Scripts[scriptName] == nil || len(module.Scripts[scriptName]) == 0 {
 			modulesWithoutScript = append(modulesWithoutScript, module.Name)
 		}
 	}
@@ -95,16 +98,18 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.RelativePath)
 		script := module.Scripts[scriptName]
 
-		if script == "" {
+		if len(script) == 0 {
 			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("the blue llama is skipping module '%s' (no script '%s')", module.Name, scriptName))
 			nSkipped++
 			continue
 		}
 
-		dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running script '%s' in module '%s'", scriptName, module.Name))
-		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
-			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module '%s', be aware it may have run for other modules", module.Name))
-			return err
+		for _, unitScript := range script {
+			dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running script '%s' in module '%s'", scriptName, module.Name))
+			if err := dependencies.Effects.Executor.Bash(path, unitScript); err != nil {
+				dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module '%s', be aware it may have run for other modules", module.Name))
+				return err
+			}
 		}
 
 		nSuccess++

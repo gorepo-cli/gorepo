@@ -4,6 +4,7 @@ import (
 	"gorepo-cli/internal/config"
 	"gorepo-cli/internal/flags"
 	"strconv"
+	"strings"
 )
 
 func check(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
@@ -57,7 +58,7 @@ func check(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, glob
 			if len(module.Scripts) > 0 {
 				dependencies.Effects.Logger.DefaultLn("COMMANDS........")
 				for k, v := range module.Scripts {
-					dependencies.Effects.Logger.DefaultLn("  " + k + " -> " + v)
+					dependencies.Effects.Logger.DefaultLn("  " + k + " -> " + strings.Join(v, ", "))
 				}
 			}
 		}

@@ -1,11 +1,19 @@
 package config
 
+type Pipeline []string
+
 type RootConfig struct {
-	Name     string            `toml:"name"`
-	Version  string            `toml:"version"`
-	Strategy string            `toml:"strategy"` // workspace / rewrites (unsupported)
-	Vendor   bool              `toml:"vendor"`   // vendor or not (unsupported)
-	Scripts  map[string]string `toml:"scripts"`
+	Name     string              `toml:"name"`
+	Version  string              `toml:"version"`
+	Strategy string              `toml:"strategy"` // workspace / rewrites (unsupported)
+	Vendor   bool                `toml:"vendor"`   // vendor or not (unsupported)
+	Scripts  map[string]Pipeline `toml:"scripts"`
+}
+
+// this type is needed to parse scripts, that can be strings or array of strings
+type rootConfigRaw struct {
+	RootConfig
+	Scripts map[string]any `toml:"scripts"`
 }
 
 // ModuleConfig contains the configuration of a module
@@ -25,5 +33,11 @@ type ModuleConfig struct {
 	// Build priority, higher goes first
 	Priority int `toml:"priority"`
 	// List of scripts that can be run through gorepo execute <script_name>
-	Scripts map[string]string `toml:"scripts"`
+	Scripts map[string]Pipeline `toml:"scripts"`
+}
+
+// this type is needed to parse scripts, that can be strings or array of strings
+type moduleConfigRaw struct {
+	ModuleConfig
+	Scripts map[string]any `toml:"scripts"`
 }
