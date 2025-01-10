@@ -96,21 +96,21 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 		script := module.Scripts[scriptName]
 
 		if script == "" {
-			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("the blue llama is skipping module %s (no script)", module.Name))
+			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("the blue llama is skipping module '%s' (no script '%s')", module.Name, scriptName))
 			nSkipped++
 			continue
 		}
 
-		dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is now going to run the script for module %s", module.Name))
+		dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running script '%s' in module '%s'", scriptName, module.Name))
 		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
-			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module %s, be aware it may have run for other modules", module.Name))
+			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module '%s', be aware it may have run for other modules", module.Name))
 			return err
 		}
 
 		nSuccess++
 	}
 
-	dependencies.Effects.Logger.SuccessLn(fmt.Sprintf("the blue llama gracefully finished, it targeted %s, executed %s and skipped %s", strconv.Itoa(len(modules)), strconv.Itoa(nSuccess), strconv.Itoa(nSkipped)))
+	dependencies.Effects.Logger.SuccessLn(fmt.Sprintf("the blue llama gracefully finished, it targeted %s, executed %s, skipped %s", strconv.Itoa(len(modules)), strconv.Itoa(nSuccess), strconv.Itoa(nSkipped)))
 
 	return nil
 }

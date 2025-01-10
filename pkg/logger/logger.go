@@ -35,7 +35,7 @@ func NewLogger() *Logger {
 }
 
 func (l *Logger) FatalLn(msg string) {
-	l.Println(FatalColor("the blue llama ran into an error: " + msg))
+	l.Println(FatalColor("blue llama error: " + msg))
 }
 
 func (l *Logger) WarningLn(msg string) {
@@ -43,7 +43,7 @@ func (l *Logger) WarningLn(msg string) {
 }
 
 func (l *Logger) VerboseLn(msg string) {
-	l.Logger.Println(VerboseColor("the blue llama gossips: " + msg))
+	l.Logger.Println(VerboseColor("blue llama whispers: " + msg))
 }
 
 func (l *Logger) InfoLn(msg string) {
