@@ -11,7 +11,6 @@
 - run and restart (nodemon like)
 - generate a gitignore file for go repos
 - see how we could handle docker
-- see how we could handle pipelines
 - implement some nodemon feature (`gorepo wath` or `gorepo run --watch`)
 - add timeout
 - add version check call (and a flag --no-check)
