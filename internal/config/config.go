@@ -114,22 +114,22 @@ func (c *Config) GetRootConfig() (cfg RootConfig, err error) {
 	for scriptName, script := range cfgRaw.Scripts {
 		if _, ok := script.(string); ok {
 			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]Pipeline)
+				cfg.Scripts = make(map[string]ScriptQueue)
 			}
 			cfg.Scripts[scriptName] = []string{script.(string)}
 		} else if _, ok := script.([]interface{}); ok {
 			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]Pipeline)
+				cfg.Scripts = make(map[string]ScriptQueue)
 			}
-			var pipeline []string
+			var scriptQueue []string
 			for _, item := range script.([]interface{}) {
 				if str, ok := item.(string); ok {
-					pipeline = append(pipeline, str)
+					scriptQueue = append(scriptQueue, str)
 				} else {
 					return cfg, fmt.Errorf("invalid script format in %s: non-string value found", scriptName)
 				}
 			}
-			cfg.Scripts[scriptName] = pipeline
+			cfg.Scripts[scriptName] = scriptQueue
 		}
 	}
 	return cfg, nil
@@ -224,22 +224,22 @@ func (c *Config) GetModuleConfig(relativePath string) (cfg ModuleConfig, err err
 	for scriptName, script := range cfgRaw.Scripts {
 		if _, ok := script.(string); ok {
 			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]Pipeline)
+				cfg.Scripts = make(map[string]ScriptQueue)
 			}
 			cfg.Scripts[scriptName] = []string{script.(string)}
 		} else if _, ok := script.([]interface{}); ok {
 			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]Pipeline)
+				cfg.Scripts = make(map[string]ScriptQueue)
 			}
-			var pipeline []string
+			var scriptQueue []string
 			for _, item := range script.([]interface{}) {
 				if str, ok := item.(string); ok {
-					pipeline = append(pipeline, str)
+					scriptQueue = append(scriptQueue, str)
 				} else {
 					return cfg, fmt.Errorf("invalid script format in %s: non-string value found", scriptName)
 				}
 			}
-			cfg.Scripts[scriptName] = pipeline
+			cfg.Scripts[scriptName] = scriptQueue
 		}
 	}
 	cfg.Name = filepath.Base(relativePath)

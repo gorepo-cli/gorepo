@@ -33,7 +33,7 @@ func add(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 		Type:         "executable",
 		Main:         "",
 		Priority:     0,
-		Scripts:      map[string]config.Pipeline{},
+		Scripts:      map[string]config.ScriptQueue{},
 	}
 	absolutePath := filepath.Join(dependencies.Config.Runtime.ROOT, relativePathAndNameInput)
 	if err := dependencies.Config.WriteModuleConfig(newModule, absolutePath); err != nil {
