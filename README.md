@@ -84,6 +84,12 @@ To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 
 # Reference
 
+<div>
+  <picture>
+    <img src="assets/banner.webp" alt="banner" />
+  </picture>
+</div>
+
 **Structure of a command:**
 
 ```
