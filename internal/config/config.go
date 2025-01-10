@@ -166,9 +166,41 @@ func (c *Config) GetModules(targets, exclude []string) (modules []ModuleConfig, 
 	}
 	// walk
 	currentPath := c.Runtime.ROOT
+	skipDirs := map[string]bool{
+		"node_modules": true,
+		"vendor":       true,
+		"bin":          true,
+		"obj":          true,
+		"target":       true,
+		".cache":       true,
+		".venv":        true,
+		"virtualenvs":  true,
+		"venv":         true,
+		"env":          true,
+		".git":         true,
+		".github":      true,
+		".gitlab":      true,
+		".vscode":      true,
+		"__pycache__":  true,
+		"dist":         true,
+		"out":          true,
+		".snv":         true,
+		".hg":          true,
+		".DS_Store":    true,
+		"thumbs.db":    true,
+		"logs":         true,
+		".idea":        true,
+		".settings":    true,
+		".terraform":   true,
+		".aws-sam":     true,
+		".circleci":    true,
+	}
 	err = c.Effects.Filesystem.Walk(currentPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
+		}
+		if info.IsDir() && skipDirs[info.Name()] {
+			return filepath.SkipDir
 		}
 		if info.IsDir() {
 			exists := c.Effects.Filesystem.Exists(filepath.Join(path, c.Static.ModuleFileName))
