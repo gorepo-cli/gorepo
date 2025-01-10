@@ -3,11 +3,10 @@ package config
 type ScriptQueue []string
 
 type RootConfig struct {
-	Name     string                 `toml:"name"`
-	Version  string                 `toml:"version"`
-	Strategy string                 `toml:"strategy"` // workspace / rewrites (unsupported)
-	Vendor   bool                   `toml:"vendor"`   // vendor or not (unsupported)
-	Scripts  map[string]ScriptQueue `toml:"scripts"`
+	Name    string                 `toml:"name"`
+	Version string                 `toml:"version"`
+	Vendor  bool                   `toml:"vendor"` // vendor or not (unsupported)
+	Scripts map[string]ScriptQueue `toml:"scripts"`
 }
 
 // this type is needed to parse scripts, that can be strings or array of strings

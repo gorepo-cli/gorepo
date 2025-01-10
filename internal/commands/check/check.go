@@ -35,7 +35,7 @@ func check(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, glob
 
 		dependencies.Effects.Logger.DefaultLn("NAME.........." + cfg.Name)
 		dependencies.Effects.Logger.DefaultLn("VERSION......." + cfg.Version)
-		dependencies.Effects.Logger.DefaultLn("STRATEGY......" + cfg.Strategy)
+		dependencies.Effects.Logger.DefaultLn("STRATEGY......" + "workspace (default, unchangeable)")
 		dependencies.Effects.Logger.DefaultLn("VENDOR........" + strconv.FormatBool(cfg.Vendor))
 
 		modules, err := dependencies.Config.GetModules([]string{"all"}, []string{})

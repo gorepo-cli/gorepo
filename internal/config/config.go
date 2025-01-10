@@ -109,7 +109,6 @@ func (c *Config) GetRootConfig() (cfg RootConfig, err error) {
 	// todo: duplicating everything one by one is naive
 	cfg.Name = cfgRaw.Name
 	cfg.Version = cfgRaw.Version
-	cfg.Strategy = cfgRaw.Strategy
 	cfg.Vendor = cfgRaw.Vendor
 	for scriptName, script := range cfgRaw.Scripts {
 		if _, ok := script.(string); ok {

@@ -16,10 +16,9 @@ func initCmd(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, gl
 	verbose := globalFlags.Verbose
 
 	rootConfig := config.RootConfig{
-		Name:     name,
-		Version:  "0.1.0",
-		Strategy: "workspace",
-		Vendor:   true,
+		Name:    name,
+		Version: "0.1.0",
+		Vendor:  true,
 	}
 
 	// ask name
@@ -32,8 +31,8 @@ func initCmd(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, gl
 		rootConfig.Name = nameResponse
 	}
 
-	// ask strategy
-	dependencies.Effects.Logger.InfoLn("Using go workspace strategy by default (no other option for now)")
+	// strategy
+	dependencies.Effects.Logger.InfoLn("Using go workspace strategy by default")
 
 	// ask if should vendor
 	if vendorResponse, err := dependencies.Effects.Terminal.AskBool(
@@ -43,26 +42,19 @@ func initCmd(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, gl
 		return fmt.Errorf("failed to read input: %w", err)
 	}
 
-	// handle go workspace
-	if rootConfig.Strategy == "workspace" {
-		if exists := dependencies.Config.GoWorkspaceExists(); !exists {
-			if verbose {
-				dependencies.Effects.Logger.VerboseLn("go workspace does not exist yet, running 'go work init'")
-			}
-			err := dependencies.Effects.Executor.Go(dependencies.Config.Runtime.ROOT, "work", "init")
-			if err != nil {
-				return err
-			}
-		} else {
-			if verbose {
-				dependencies.Effects.Logger.VerboseLn("go workspace already exists, no need to create one")
-			}
-			// todo: handle vendoring
+	if exists := dependencies.Config.GoWorkspaceExists(); !exists {
+		if verbose {
+			dependencies.Effects.Logger.VerboseLn("go workspace does not exist yet, running 'go work init'")
 		}
-	} else if rootConfig.Strategy == "rewrite" {
-		return errors.New("rewrite strategy unsupported yet")
+		err := dependencies.Effects.Executor.Go(dependencies.Config.Runtime.ROOT, "work", "init")
+		if err != nil {
+			return err
+		}
 	} else {
-		return errors.New("invalid strategy '" + rootConfig.Strategy + "'")
+		if verbose {
+			dependencies.Effects.Logger.VerboseLn("go workspace already exists, no need to create one")
+		}
+		// todo: handle vendoring
 	}
 
 	if err := dependencies.Config.WriteRootConfig(rootConfig); err != nil {

@@ -42,12 +42,8 @@ func add(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 	if err := dependencies.Effects.Executor.Go(absolutePath, "mod", "init", name); err != nil {
 		return err
 	}
-	if rootConfig, err := dependencies.Config.GetRootConfig(); err != nil {
+	if err := dependencies.Effects.Executor.Go(dependencies.Config.Runtime.ROOT, "work", "use", relativePathAndNameInput); err != nil {
 		return err
-	} else if rootConfig.Strategy == "workspace" {
-		if err := dependencies.Effects.Executor.Go(dependencies.Config.Runtime.ROOT, "work", "use", relativePathAndNameInput); err != nil {
-			return err
-		}
 	}
 	return nil
 }
