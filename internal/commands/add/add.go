@@ -31,6 +31,7 @@ func add(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 		RelativePath: relativePathAndNameInput,
 		Template:     "@default",
 		Type:         "executable",
+		Language:     "",
 		Main:         "",
 		Priority:     0,
 		Scripts:      map[string]config.ScriptQueue{},

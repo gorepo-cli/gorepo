@@ -32,6 +32,8 @@
 - `gorepo update` to update the CLI
 - `gorepo upgrade` to upgrade the packages to the latest version
 - `gorepo start` (call what was built) option `--watch` (runs dev, if docker), option `--no-docker` (runs dev, without docker)
+- reorganize priorities
+- show tree of files
 
 ## New flags
 - [executionFlags] parallel: to run the commands in parallel (default 1)
