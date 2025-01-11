@@ -9,8 +9,18 @@
     A cli to manage Go monorepos.
 </p>
 
-- Discord: [https://discord.gg/dRuqRU7R](https://discord.gg/dRuqRU7R)
-- Contribute: [CONTRIBUTE.md](./CONTRIBUTE.md)
+[![Latest Release](https://img.shields.io/github/release/gorepo-cli/gorepo.svg)](https://github.com/gorepo-cli/gorepo/releases)
+[![Build Status](https://github.com/gorepo-cli/gorepo/actions/workflows/cicd.yml/badge.svg)](https://github.com/yourusername/yourrepo/actions)
+[![Commits](https://img.shields.io/github/commit-activity/m/gorepo-cli/gorepo.svg)](https://github.com/gorepo-cli/gorepo/commits)
+
+[![Contribute](https://img.shields.io/badge/Contribute-Contributions%20Welcome-brightgreen.svg)](https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md)
+
+[![Discord](https://img.shields.io/discord/1313214880689688626.svg?label=Discord&logo=discord&color=7289DA)](https://discord.gg/dRuqRU7R)
+
+[//]: # ([![Code Size]&#40;https://img.shields.io/github/languages/code-size/gorepo-cli/gorepo.svg&#41;]&#40;https://github.com/gorepo-cli/gorepo&#41;)
+[//]: # ([![Stars]&#40;https://img.shields.io/github/stars/gorepo-cli/gorepo.svg?style=social&#41;]&#40;https://github.com/gorepo-cli/gorepo/stargazers&#41;)
+
+
 
 # Highlights
 

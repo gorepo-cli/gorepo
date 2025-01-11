@@ -34,6 +34,7 @@
 - `gorepo start` (call what was built) option `--watch` (runs dev, if docker), option `--no-docker` (runs dev, without docker)
 - reorganize priorities
 - show tree of files
+- natural language commands
 
 ## New flags
 - [executionFlags] parallel: to run the commands in parallel (default 1)
