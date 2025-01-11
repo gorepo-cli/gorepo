@@ -41,10 +41,16 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 			return errors.New(fmt.Sprintf("there is no script named '%s' at root", scriptName))
 		}
 
-		for _, unitScript := range script {
-			// todo, log potential errors and log steps
-			dependencies.Effects.Logger.InfoLn("running script " + scriptName + " at root ")
+		for i, unitScript := range script {
+			if len(script) == 1 {
+				dependencies.Effects.Logger.InfoLn("running script '" + scriptName + "' at root")
+			} else {
+				dependencies.Effects.Logger.InfoLn("running script '" + scriptName + "', step " + strconv.Itoa(i+1) + " at root")
+			}
 			if err := dependencies.Effects.Executor.Bash(path, unitScript); err != nil {
+				if len(script) > 1 {
+					dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script '%s' failed at root, at step %d, be aware earlier steps may have run", scriptName, i+1))
+				}
 				return err
 			}
 		}
@@ -104,10 +110,14 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 			continue
 		}
 
-		for _, unitScript := range script {
-			dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running script '%s' in module '%s'", scriptName, module.Name))
+		for i, unitScript := range script {
+			if len(script) == 1 {
+				dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running script '%s' in module '%s'", scriptName, module.Name))
+			} else {
+				dependencies.Effects.Logger.InfoLn(fmt.Sprintf("the blue llama is running script '%s', step %d, in module '%s'", scriptName, i+1, module.Name))
+			}
 			if err := dependencies.Effects.Executor.Bash(path, unitScript); err != nil {
-				dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module '%s', be aware it may have run for other modules", module.Name))
+				dependencies.Effects.Logger.WarningLn(fmt.Sprintf("/!\\ script failed within module '%s', step %d, be aware it may have run for other modules", module.Name, i+1))
 				return err
 			}
 		}
