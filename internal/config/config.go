@@ -283,8 +283,7 @@ func (c *Config) WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName s
 	if err != nil {
 		return err
 	}
-	// todo: extract that as a side effect
-	err = os.MkdirAll(absolutePathAndName, 0755)
+	err = c.Effects.Filesystem.MkDir(absolutePathAndName)
 	if err != nil {
 		return fmt.Errorf("failed to create directories: %w", err)
 	}

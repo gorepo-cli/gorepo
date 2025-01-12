@@ -10,6 +10,7 @@ type Methods interface {
 	Read(absolutePath string) ([]byte, error)
 	Write(absolutePath string, content []byte) error
 	Walk(rootPath string, walkFn filepath.WalkFunc) error
+	MkDir(absolutePath string) error
 	GetWd() (absolutePath string, err error)
 }
 
@@ -32,6 +33,10 @@ func (fs *Filesystem) Write(absolutePath string, content []byte) (err error) {
 
 func (fs *Filesystem) Walk(rootPath string, walkFn filepath.WalkFunc) (err error) {
 	return filepath.Walk(rootPath, walkFn)
+}
+
+func (fs *Filesystem) MkDir(absolutePath string) (err error) {
+	return os.MkdirAll(absolutePath, 0755)
 }
 
 func (fs *Filesystem) GetWd() (dir string, err error) {

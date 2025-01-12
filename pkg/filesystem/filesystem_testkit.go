@@ -143,6 +143,10 @@ func (mockTime) String() string         { return "mockTime" }
 func (mockTime) IsZero() bool           { return true }
 func (mockTime) Before(t mockTime) bool { return false }
 
+func (m *MockFileSystem) MkDir(absolutePath string) error {
+	return nil
+}
+
 func (m *MockFileSystem) GetWd() (string, error) {
 	return m.Wd, nil
 }

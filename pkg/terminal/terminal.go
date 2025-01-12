@@ -81,5 +81,5 @@ func (o *Terminal) SingleSelect(question string, choices [][]string, l logger.Me
 			return "", err
 		}
 	}
-	return choices[choice-1][0], nil
+	return strings.TrimSpace(choices[choice-1][0]), nil
 }
