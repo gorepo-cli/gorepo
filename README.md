@@ -85,8 +85,9 @@ To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 - A **monorepo** is a project with a `work.toml` file at the root. Monorepos can not be nested.
 - A **module** is a folder containing a `module.toml` file. Modules can technically be nested, but you should probably avoid it.
 - A module can be of the following types:
-  - **executable**: the code can be built and/or executed
+  - **executable**: the code can be built and executed
   - **library**: the code can be built
+  - **script**: the code can be executed
   - **static**: the code is not meant to be built, just imported from other modules
 - Modules can have a `scripts` section. They can be executed with `gorepo exec <script_name>` (see reference below).
 - Some commands can be run at the root, like `gorepo exec start`, but also in the concept of a module, like `gorepo module1 exec start`. Note the module is here a command.

@@ -2,14 +2,17 @@ package terminal
 
 import (
 	"bufio"
+	"fmt"
 	"gorepo-cli/pkg/logger"
 	"os"
+	"strconv"
 	"strings"
 )
 
 type Methods interface {
 	AskBool(question, choices, defaultValue string, l logger.Methods) (response bool, err error)
 	AskString(question, choices, defaultValue string, l logger.Methods) (response string, err error)
+	SingleSelect(question string, choices [][]string, l logger.Methods) (response string, err error)
 }
 
 type Terminal struct{}
@@ -60,4 +63,23 @@ func (o *Terminal) AskString(question, choices, defaultValue string, l logger.Me
 		responseStr = defaultValue
 	}
 	return responseStr, nil
+}
+
+func (o *Terminal) SingleSelect(question string, choices [][]string, l logger.Methods) (response string, err error) {
+	l.DefaultLn(question)
+	choice := 0
+	for i, choice := range choices {
+		l.DefaultLn(fmt.Sprintf("%d. %s - %s", i+1, choice[0], choice[1]))
+	}
+	for choice < 1 || choice > len(choices) {
+		choiceStr, err := o.AskString("choice", "1-"+strconv.Itoa(len(choices)), "", l)
+		if err != nil {
+			return "", err
+		}
+		choice, err = strconv.Atoi(choiceStr)
+		if err != nil {
+			return "", err
+		}
+	}
+	return choices[choice-1][0], nil
 }

@@ -23,7 +23,7 @@ type ModuleConfig struct {
 	RelativePath string `toml:"-"`
 	// Name of the template (default is @default)
 	Template string `toml:"template"`
-	// Module's type (executable (can be built and executed), library (can be built), static (can not be built))
+	// Module's type (executable (can be built and executed), library (can be built), script (can be executed), static (can not be built))
 	Type string `toml:"type"`
 	// Language of the module (go, python, node, javascript, etc.)
 	Language string `toml:"language"`

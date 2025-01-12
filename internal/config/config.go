@@ -279,7 +279,6 @@ func (c *Config) GetModuleConfig(relativePath string) (cfg ModuleConfig, err err
 }
 
 func (c *Config) WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName string) (err error) {
-	fmt.Println("absolutePathAndName: " + absolutePathAndName)
 	configStr, err := toml.Marshal(modConfig)
 	if err != nil {
 		return err
@@ -290,7 +289,6 @@ func (c *Config) WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName s
 		return fmt.Errorf("failed to create directories: %w", err)
 	}
 	filePath := filepath.Join(absolutePathAndName, c.Static.ModuleFileName)
-	fmt.Println("filePath: " + filePath)
 	return c.Effects.Filesystem.Write(filePath, configStr)
 }
 

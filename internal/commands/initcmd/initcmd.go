@@ -31,9 +31,6 @@ func initCmd(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, gl
 		rootConfig.Name = nameResponse
 	}
 
-	// strategy
-	dependencies.Effects.Logger.InfoLn("Using go workspace strategy by default")
-
 	// ask if should vendor
 	if vendorResponse, err := dependencies.Effects.Terminal.AskBool(
 		"Do you want to vendor dependencies?", "y/n", "y", dependencies.Effects.Logger); err == nil {

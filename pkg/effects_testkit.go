@@ -43,7 +43,7 @@ func NewTestkit(args TestKitArgs) (effects *MockEffects) {
 		_executor   = executor.NewMockExecutor()
 		_filesystem = filesystem.NewMockFilesystem(args.Files, args.WD)
 		_logger     = logger.NewMockLogger()
-		_terminal   = terminal.NewMockTerminal(args.WD, args.QaBool, args.QaString)
+		_terminal   = terminal.NewMockTerminal(args.QaBool, args.QaString)
 	)
 	return &MockEffects{
 		Executor:   _executor,
