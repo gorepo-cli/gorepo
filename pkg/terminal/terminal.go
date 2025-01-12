@@ -69,7 +69,7 @@ func (o *Terminal) SingleSelect(question string, choices [][]string, l logger.Me
 	l.DefaultLn(question)
 	choice := 0
 	for i, choice := range choices {
-		l.DefaultLn(fmt.Sprintf("%d. %s - %s", i+1, choice[0], choice[1]))
+		l.DefaultLn(fmt.Sprintf("%s. %s - %s", logger.InfoColor(strconv.Itoa(i+1)), logger.InfoColor(choice[0]), logger.VerboseColor(choice[1])))
 	}
 	for choice < 1 || choice > len(choices) {
 		choiceStr, err := o.AskString("choice", "1-"+strconv.Itoa(len(choices)), "", l)
