@@ -8,10 +8,11 @@ import (
 )
 
 type TestKitArgs struct {
-	WD       string
-	Files    map[string][]byte
-	QaBool   map[string]bool
-	QaString map[string]string
+	WD             string
+	Files          map[string][]byte
+	QaBool         map[string]bool
+	QaString       map[string]string
+	QaSingleSelect map[string]string
 }
 
 type TestKitResponse struct {
@@ -43,7 +44,7 @@ func NewTestkit(args TestKitArgs) (effects *MockEffects) {
 		_executor   = executor.NewMockExecutor()
 		_filesystem = filesystem.NewMockFilesystem(args.Files, args.WD)
 		_logger     = logger.NewMockLogger()
-		_terminal   = terminal.NewMockTerminal(args.QaBool, args.QaString)
+		_terminal   = terminal.NewMockTerminal(args.QaBool, args.QaString, args.QaSingleSelect)
 	)
 	return &MockEffects{
 		Executor:   _executor,
