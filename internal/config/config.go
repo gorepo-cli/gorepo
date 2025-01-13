@@ -40,6 +40,8 @@ var _ RootConfigMethods = &Config{}
 
 type ModuleConfigManipulation interface {
 	GetModules(targets, exclude []string) (modules []ModuleConfig, err error)
+	FilterModulesByType(modules []ModuleConfig, types []string) []ModuleConfig
+	FilterModulesByLanguage(modules []ModuleConfig, languages []string) []ModuleConfig
 	GetModuleConfig(relativePath string) (cfg ModuleConfig, err error)
 	WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName string) (err error)
 }
@@ -243,6 +245,26 @@ func (c *Config) GetModules(targets, exclude []string) (modules []ModuleConfig, 
 		return modules[i].Priority > modules[j].Priority
 	})
 	return modules, nil
+}
+
+func (c *Config) FilterModulesByType(modules []ModuleConfig, types []string) []ModuleConfig {
+	var filteredModules []ModuleConfig
+	for _, module := range modules {
+		if contains(types, module.Type) {
+			filteredModules = append(filteredModules, module)
+		}
+	}
+	return filteredModules
+}
+
+func (c *Config) FilterModulesByLanguage(modules []ModuleConfig, languages []string) []ModuleConfig {
+	var filteredModules []ModuleConfig
+	for _, module := range modules {
+		if contains(languages, module.Language) {
+			filteredModules = append(filteredModules, module)
+		}
+	}
+	return filteredModules
 }
 
 func (c *Config) GetModuleConfig(relativePath string) (cfg ModuleConfig, err error) {

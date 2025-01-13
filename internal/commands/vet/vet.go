@@ -8,8 +8,6 @@ import (
 	"strings"
 )
 
-// todo: broken because of ci
-
 func vet(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
 	if err := dependencies.Config.BreakIfRootConfigDoesNotExist(); err != nil {
 		return err
@@ -30,8 +28,9 @@ func vet(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 		dependencies.Effects.Logger.VerboseLn("value for flag exclude:      " + strings.Join(exclude, ","))
 	}
 
+	// executing the script at the root means executing it in all modules
 	if targets[0] == "root" {
-		return errors.New("running vet-ci from root is not supported")
+		targets = []string{"all"}
 	}
 
 	modules, err := dependencies.Config.GetModules(targets, exclude)
@@ -43,8 +42,27 @@ func vet(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 
 	for _, module := range modules {
 		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.RelativePath)
-		if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
-			return errors.New("error: vet --ci failed in module " + module.Name)
+		if module.Language != "go" {
+			if err := dependencies.Effects.Executor.Bash(path, script); err != nil {
+				return errors.New("error: vet --ci failed in module " + module.Name)
+			}
+		} else {
+			hasVet := false
+			for name, _ := range module.Scripts {
+				if name == "vet" {
+					hasVet = true
+				}
+			}
+			if hasVet {
+				dependencies.Effects.Logger.InfoLn("module " + module.Name + " in not a go module but it implements vet, executing")
+				for i, _ := range module.Scripts["vet"] {
+					if err := dependencies.Effects.Executor.Bash(path, module.Scripts["fmt-ci"][i]); err != nil {
+						return errors.New("error: fmt-ci failed in module " + module.Name)
+					}
+				}
+			} else {
+				dependencies.Effects.Logger.WarningLn("module " + module.Name + " in not a go module and it does not implement vet, skipping")
+			}
 		}
 	}
 
