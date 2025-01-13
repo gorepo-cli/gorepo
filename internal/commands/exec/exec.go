@@ -11,8 +11,8 @@ import (
 )
 
 func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags, scriptName string) error {
-	if exists := dependencies.Config.RootConfigExists(); !exists {
-		return errors.New(fmt.Sprintf("no monorepo found at path %s" + dependencies.Config.Runtime.ROOT))
+	if err := dependencies.Config.BreakIfRootConfigDoesNotExist(); err != nil {
+		return err
 	}
 
 	if globalFlags.Verbose {

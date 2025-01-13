@@ -17,11 +17,18 @@ func Execute(l logger.Methods) (err error) {
 		return err
 	}
 	dependencies := config.NewDependencies(effects, cfg)
+	registeredCommands := commands.RegisterCommands(dependencies)
+
+	var commandNames []string
+	for _, command := range registeredCommands {
+		commandNames = append(commandNames, command.Name)
+	}
+	dependencies.Config.PushForbiddenNames(commandNames)
 
 	app := &cli.App{
 		Name:     "gorepo",
 		Usage:    "A cli tool to manage Go monorepos",
-		Commands: commands.RegisterCommands(dependencies),
+		Commands: registeredCommands,
 		Flags:    flags.GlobalGroup,
 	}
 
@@ -33,10 +40,11 @@ func Execute(l logger.Methods) (err error) {
 
 		for _, module := range modules {
 			module := module
+			registeredModuleCommands := commands.RegisterModuleCommands(module.Name, dependencies)
 			app.Commands = append(app.Commands, &cli.Command{
 				Name:        module.Name,
 				Hidden:      true,
-				Subcommands: commands.RegisterModuleCommands(module.Name, dependencies),
+				Subcommands: registeredModuleCommands,
 			})
 		}
 	}

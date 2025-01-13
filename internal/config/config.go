@@ -26,10 +26,12 @@ type RuntimeConfig struct {
 	WD   string
 	ROOT string
 	// BIN  string
+	ForbiddenNames []string
 }
 
 type RootConfigMethods interface {
 	RootConfigExists() bool
+	BreakIfRootConfigDoesNotExist() error
 	GetRootConfig() (cfg RootConfig, err error)
 	WriteRootConfig(rootConfig RootConfig) (err error)
 }
@@ -46,6 +48,7 @@ var _ ModuleConfigManipulation = &Config{}
 
 type HelperMethods interface {
 	GoWorkspaceExists() bool
+	PushForbiddenNames(names []string)
 }
 
 var _ HelperMethods = &Config{}
@@ -57,7 +60,9 @@ func NewConfig(effects *pkg.Effects) (cfg *Config, err error) {
 		RootFileName:   "work.toml",
 		ModuleFileName: "module.toml",
 	}
-	cfg.Runtime = RuntimeConfig{}
+	cfg.Runtime = RuntimeConfig{
+		ForbiddenNames: []string{},
+	}
 	cfg.Effects = effects
 	if wd, err := effects.Filesystem.GetWd(); err == nil {
 		cfg.Runtime.WD = wd
@@ -94,6 +99,13 @@ func getRootPath(cfg *Config) (root string, err error) {
 func (c *Config) RootConfigExists() bool {
 	filePath := filepath.Join(c.Runtime.ROOT, c.Static.RootFileName)
 	return c.Effects.Filesystem.Exists(filePath)
+}
+
+func (c *Config) BreakIfRootConfigDoesNotExist() error {
+	if !c.RootConfigExists() {
+		return fmt.Errorf("monorepo configuration not found at %s", c.Runtime.ROOT)
+	}
+	return nil
 }
 
 func (c *Config) GetRootConfig() (cfg RootConfig, err error) {
@@ -289,6 +301,12 @@ func (c *Config) WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName s
 	}
 	filePath := filepath.Join(absolutePathAndName, c.Static.ModuleFileName)
 	return c.Effects.Filesystem.Write(filePath, configStr)
+}
+
+func (c *Config) PushForbiddenNames(names []string) {
+	for _, name := range names {
+		c.Runtime.ForbiddenNames = append(c.Runtime.ForbiddenNames, name)
+	}
 }
 
 func contains(s []string, e string) bool {

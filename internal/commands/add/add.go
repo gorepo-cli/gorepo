@@ -8,13 +8,18 @@ import (
 )
 
 func add(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags, relativePathAndNameInput string) error {
-	if exists := dependencies.Config.RootConfigExists(); !exists {
-		return errors.New("monorepo not found at " + dependencies.Config.Runtime.ROOT)
+	if err := dependencies.Config.BreakIfRootConfigDoesNotExist(); err != nil {
+		return err
 	}
 	if relativePathAndNameInput == "" {
 		return errors.New("error: no name provided")
 	}
 	name := filepath.Base(relativePathAndNameInput)
+	for _, forbiddenName := range dependencies.Config.Runtime.ForbiddenNames {
+		if forbiddenName == name {
+			return errors.New("the name " + name + " is forbidden for a module (collides with a command)")
+		}
+	}
 	if globalFlags.Verbose {
 		dependencies.Effects.Logger.VerboseLn("the relative path is " + relativePathAndNameInput + " and the name is " + name)
 	}

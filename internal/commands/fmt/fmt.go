@@ -9,27 +9,21 @@ import (
 )
 
 func fmt(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
-	if exists := dependencies.Config.RootConfigExists(); !exists {
-		return errors.New("monorepo not found at " + dependencies.Config.Runtime.ROOT)
+	if err := dependencies.Config.BreakIfRootConfigDoesNotExist(); err != nil {
+		return err
 	}
 
-	verbose := globalFlags.Verbose
-	if verbose {
-		dependencies.Effects.Logger.VerboseLn("verbose mode enabled")
+	if globalFlags.Verbose {
+		dependencies.Effects.Logger.VerboseLn("the value of --target is '" + cmdFlags.Target + "'")
+		dependencies.Effects.Logger.VerboseLn("the value of --exclude is '" + cmdFlags.Exclude + "'")
 	}
 
 	targets := strings.Split(cmdFlags.Target, ",")
-	if verbose {
-		dependencies.Effects.Logger.VerboseLn("value for flag target:       " + strings.Join(targets, ","))
-	}
-
 	exclude := strings.Split(cmdFlags.Exclude, ",")
-	if verbose {
-		dependencies.Effects.Logger.VerboseLn("value for flag exclude:      " + strings.Join(exclude, ","))
-	}
 
+	// executing the script at the root means executing it in all modules
 	if targets[0] == "root" {
-		return errors.New("running fmt in root is not supported")
+		targets = []string{"all"}
 	}
 
 	modules, err := dependencies.Config.GetModules(targets, exclude)

@@ -11,8 +11,8 @@ import (
 // todo: broken because of ci
 
 func vet(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
-	if exists := dependencies.Config.RootConfigExists(); !exists {
-		return errors.New("monorepo not found at " + dependencies.Config.Runtime.ROOT)
+	if err := dependencies.Config.BreakIfRootConfigDoesNotExist(); err != nil {
+		return err
 	}
 
 	verbose := globalFlags.Verbose

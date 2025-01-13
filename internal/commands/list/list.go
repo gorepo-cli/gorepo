@@ -2,7 +2,6 @@ package list
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"gorepo-cli/internal/config"
 	"gorepo-cli/internal/flags"
@@ -10,8 +9,8 @@ import (
 )
 
 func list(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globalFlags *flags.GlobalFlags) error {
-	if exists := dependencies.Config.RootConfigExists(); !exists {
-		return errors.New("monorepo not found at " + dependencies.Config.Runtime.ROOT)
+	if err := dependencies.Config.BreakIfRootConfigDoesNotExist(); err != nil {
+		return err
 	}
 	modules, err := dependencies.Config.GetModules([]string{"all"}, []string{})
 	if err != nil {
