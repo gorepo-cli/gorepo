@@ -1,41 +1,53 @@
 <div align="center">
-    <picture>
-        <img style="margin-bottom:0;" width="150" src="./assets/gorepo.png" alt="logo">
-    </picture>
-    <h1 align="center" >GOREPO</h1>
+  <picture>
+    <img style="margin-bottom:0;" width="180" src="./assets/gorepo.png" alt="logo">
+  </picture>
+  <h1 align="center">GOREPO</h1>
 </div>
-
 <p align="center">
-    A cli to manage Go monorepos.
+  A cli to manage Go monorepos.
 </p>
 
-[![Latest Release](https://img.shields.io/github/release/gorepo-cli/gorepo.svg)](https://github.com/gorepo-cli/gorepo/releases)
-[![Build Status](https://github.com/gorepo-cli/gorepo/actions/workflows/cicd.yml/badge.svg)](https://github.com/yourusername/yourrepo/actions)
-[![Commits](https://img.shields.io/github/commit-activity/m/gorepo-cli/gorepo.svg)](https://github.com/gorepo-cli/gorepo/commits)
+<div align="center">
+  <a href="https://github.com/gorepo-cli/gorepo/releases">
+    <img src="https://img.shields.io/github/release/gorepo-cli/gorepo.svg" alt="Latest Release">
+  </a>
+  <a href="https://github.com/yourusername/yourrepo/actions">
+    <img src="https://github.com/gorepo-cli/gorepo/actions/workflows/cicd.yml/badge.svg" alt="Build Status">
+  </a>
+  <a href="https://github.com/gorepo-cli/gorepo/commits">
+    <img src="https://img.shields.io/github/commit-activity/m/gorepo-cli/gorepo.svg" alt="Commits">
+  </a>
+  <a href="https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md">
+    <img src="https://img.shields.io/badge/Contribute-Contributions%20Welcome-brightgreen.svg" alt="Contribute">
+  </a>
+  <a href="https://discord.gg/dRuqRU7R">
+    <img src="https://img.shields.io/discord/1313214880689688626.svg?label=Discord&logo=discord&color=7289DA" alt="Discord">
+  </a>
+</div>
 
-[![Contribute](https://img.shields.io/badge/Contribute-Contributions%20Welcome-brightgreen.svg)](https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md)
-
-[![Discord](https://img.shields.io/discord/1313214880689688626.svg?label=Discord&logo=discord&color=7289DA)](https://discord.gg/dRuqRU7R)
 
 [//]: # ([![Code Size]&#40;https://img.shields.io/github/languages/code-size/gorepo-cli/gorepo.svg&#41;]&#40;https://github.com/gorepo-cli/gorepo&#41;)
+
 [//]: # ([![Stars]&#40;https://img.shields.io/github/stars/gorepo-cli/gorepo.svg?style=social&#41;]&#40;https://github.com/gorepo-cli/gorepo/stargazers&#41;)
-
-
 
 # Highlights
 
-- The cli is super dumb to use
-- You can use the name of a module as a command, to execute commands in their context
-- You can run all commands from anywhere (no need to CD all the time)
-- You can run scripts across multiple or all modules at once with a priority
-- You can run pipelines of scripts
-- You can break in the CI on fmt using the flag `--ci`
+- Use the name of a package as a command to execute a command in their context
+- Run tasks across multiple or all modules at once
+- Define pipelines of tasks
+- Define priorities between packages run tasks in order
+- Run commands from anywhere, no need to cd all the time
+- Break in the CI using the flag `--ci`, as `gorepo fmt --ci`
 
 If you want to know more about the direction the project is taking, see [BRAINSTORM.md](./BRAINSTORM.md).
-If you want to share your use cases and affect the direction it is going, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join [discord](https://discord.gg/dRuqRU7R).
+If you want to share your use cases and affect the direction it is
+going, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join [discord](https://discord.gg/dRuqRU7R).
 
 # Disclaimer
-- This is not a strong battle-tested tool, it provides only basic features
+
+- This is not a battle-tested tool, it provides only basic features
+- Those features and the syntax may change until the project is stable
 - I code features as I go and as I need them
 - I only test Linux for now, macOS is probably ok, Windows is probably not
 - You should commit before running any command to see exactly what you are doing
@@ -43,15 +55,18 @@ If you want to share your use cases and affect the direction it is going, [open 
 # Homebrew
 
 ## Pre-requisites
+
 You must have go and git installed.
 
 ## Install via homebrew
+
 ```bash
 brew tap gorepo-cli/gorepo
 brew install gorepo
 ```
 
 Test it is working with:
+
 ```bash
 gorepo version
 ```
@@ -59,11 +74,13 @@ gorepo version
 Note in some rare cases, if gorepo is not recognized, you may have to add the folder to the path
 
 ## Update via homebrew
+
 ```bash
 brew upgrade gorepo
 ```
 
 Note you may have to kill local cache:
+
 ```bash
 brew update
 brew uninstall gorepo
@@ -83,15 +100,18 @@ To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 # Concepts
 
 - A **monorepo** is a project with a `work.toml` file at the root. Monorepos can not be nested.
-- A **module** is a folder containing a `module.toml` file. Modules can technically be nested, but you should probably avoid it.
+- A **module** is a folder containing a `module.toml` file. Modules can technically be nested, but you should probably
+  avoid it.
 - A module can be of the following types:
-  - **executable**: the code can be built and executed
-  - **library**: the code can be built
-  - **script**: the code can be executed
-  - **static**: the code is not meant to be built, just imported from other modules
+    - **executable**: the code can be built and executed
+    - **library**: the code can be built
+    - **script**: the code can be executed
+    - **static**: the code is not meant to be built, just imported from other modules
 - Modules can have a `scripts` section. They can be executed with `gorepo exec <script_name>` (see reference below).
-- Some commands can be run at the root, like `gorepo exec start`, but also in the concept of a module, like `gorepo module1 exec start`. Note the module is here a command.
-- THe monorepo structure relies on go workspaces since the industry finally acknowledges it is ok to commit go.work files for that
+- Some commands can be run at the root, like `gorepo exec start`, but also in the concept of a module, like
+  `gorepo module1 exec start`. Note the module is here a command.
+- THe monorepo structure relies on go workspaces since the industry finally acknowledges it is ok to commit go.work
+  files for that
 
 # Reference
 
