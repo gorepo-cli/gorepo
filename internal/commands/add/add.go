@@ -29,7 +29,7 @@ func add(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 	}
 	for _, module := range modules {
 		if module.Name == name {
-			return errors.New("the module with name " + name + " already exists at the path " + module.RelativePath)
+			return errors.New("the module with name " + name + " already exists at the path " + module.PathFromRoot)
 		}
 	}
 	moduleType, err := dependencies.Effects.Terminal.SingleSelect(
@@ -59,13 +59,13 @@ func add(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, global
 	}
 	newModule := config.ModuleConfig{
 		Name:         name,
-		RelativePath: relativePathAndNameInput,
+		PathFromRoot: relativePathAndNameInput,
 		Template:     "@default",
 		Type:         moduleType,
 		Language:     language,
 		Main:         "",
 		Priority:     0,
-		Scripts:      map[string]config.ScriptQueue{},
+		Tasks:        map[string]config.TaskQueue{},
 	}
 	absolutePath := filepath.Join(dependencies.Config.Runtime.ROOT, relativePathAndNameInput)
 	if err := dependencies.Config.WriteModuleConfig(newModule, absolutePath); err != nil {

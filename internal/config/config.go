@@ -29,16 +29,17 @@ type RuntimeConfig struct {
 	ForbiddenNames []string
 }
 
-type RootConfigMethods interface {
+type RootMethods interface {
 	RootConfigExists() bool
 	BreakIfRootConfigDoesNotExist() error
+	GoWorkspaceExists() bool
 	GetRootConfig() (cfg RootConfig, err error)
 	WriteRootConfig(rootConfig RootConfig) (err error)
 }
 
-var _ RootConfigMethods = &Config{}
+var _ RootMethods = &Config{}
 
-type ModuleConfigManipulation interface {
+type ModuleMethods interface {
 	GetModules(targets, exclude []string) (modules []ModuleConfig, err error)
 	FilterModulesByType(modules []ModuleConfig, types []string) []ModuleConfig
 	FilterModulesByLanguage(modules []ModuleConfig, languages []string) []ModuleConfig
@@ -46,14 +47,13 @@ type ModuleConfigManipulation interface {
 	WriteModuleConfig(modConfig ModuleConfig, absolutePathAndName string) (err error)
 }
 
-var _ ModuleConfigManipulation = &Config{}
+var _ ModuleMethods = &Config{}
 
-type HelperMethods interface {
-	GoWorkspaceExists() bool
+type OtherMethods interface {
 	PushForbiddenNames(names []string)
 }
 
-var _ HelperMethods = &Config{}
+var _ OtherMethods = &Config{}
 
 func NewConfig(effects *pkg.Effects) (cfg *Config, err error) {
 	cfg = &Config{}
@@ -124,15 +124,15 @@ func (c *Config) GetRootConfig() (cfg RootConfig, err error) {
 	cfg.Name = cfgRaw.Name
 	cfg.Version = cfgRaw.Version
 	cfg.Vendor = cfgRaw.Vendor
-	for scriptName, script := range cfgRaw.Scripts {
+	for scriptName, script := range cfgRaw.Tasks {
 		if _, ok := script.(string); ok {
-			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]ScriptQueue)
+			if cfg.Tasks == nil {
+				cfg.Tasks = make(map[string]TaskQueue)
 			}
-			cfg.Scripts[scriptName] = []string{script.(string)}
+			cfg.Tasks[scriptName] = []string{script.(string)}
 		} else if _, ok := script.([]interface{}); ok {
-			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]ScriptQueue)
+			if cfg.Tasks == nil {
+				cfg.Tasks = make(map[string]TaskQueue)
 			}
 			var scriptQueue []string
 			for _, item := range script.([]interface{}) {
@@ -142,7 +142,7 @@ func (c *Config) GetRootConfig() (cfg RootConfig, err error) {
 					return cfg, fmt.Errorf("invalid script format in %s: non-string value found", scriptName)
 				}
 			}
-			cfg.Scripts[scriptName] = scriptQueue
+			cfg.Tasks[scriptName] = scriptQueue
 		}
 	}
 	return cfg, nil
@@ -280,21 +280,21 @@ func (c *Config) GetModuleConfig(relativePath string) (cfg ModuleConfig, err err
 	}
 	// todo: duplicating everything one by one is naive
 	cfg.Name = cfgRaw.Name
-	cfg.RelativePath = cfgRaw.RelativePath
+	cfg.PathFromRoot = cfgRaw.PathFromRoot
 	cfg.Template = cfgRaw.Template
 	cfg.Type = cfgRaw.Type
 	cfg.Language = cfgRaw.Language
 	cfg.Main = cfgRaw.Main
 	cfg.Priority = cfgRaw.Priority
-	for scriptName, script := range cfgRaw.Scripts {
+	for scriptName, script := range cfgRaw.Tasks {
 		if _, ok := script.(string); ok {
-			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]ScriptQueue)
+			if cfg.Tasks == nil {
+				cfg.Tasks = make(map[string]TaskQueue)
 			}
-			cfg.Scripts[scriptName] = []string{script.(string)}
+			cfg.Tasks[scriptName] = []string{script.(string)}
 		} else if _, ok := script.([]interface{}); ok {
-			if cfg.Scripts == nil {
-				cfg.Scripts = make(map[string]ScriptQueue)
+			if cfg.Tasks == nil {
+				cfg.Tasks = make(map[string]TaskQueue)
 			}
 			var scriptQueue []string
 			for _, item := range script.([]interface{}) {
@@ -304,11 +304,11 @@ func (c *Config) GetModuleConfig(relativePath string) (cfg ModuleConfig, err err
 					return cfg, fmt.Errorf("invalid script format in %s: non-string value found", scriptName)
 				}
 			}
-			cfg.Scripts[scriptName] = scriptQueue
+			cfg.Tasks[scriptName] = scriptQueue
 		}
 	}
 	cfg.Name = filepath.Base(relativePath)
-	cfg.RelativePath = relativePath
+	cfg.PathFromRoot = relativePath
 	return cfg, nil
 }
 

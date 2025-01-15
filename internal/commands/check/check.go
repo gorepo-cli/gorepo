@@ -54,10 +54,10 @@ func check(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, glob
 		for _, module := range modules {
 			dependencies.Effects.Logger.InfoLn("MODULE " + module.Name)
 			dependencies.Effects.Logger.DefaultLn("MODULE_NAME........ " + module.Name)
-			dependencies.Effects.Logger.DefaultLn("MODULE_PATH........ " + module.RelativePath)
-			if len(module.Scripts) > 0 {
+			dependencies.Effects.Logger.DefaultLn("MODULE_PATH........ " + module.PathFromRoot)
+			if len(module.Tasks) > 0 {
 				dependencies.Effects.Logger.DefaultLn("COMMANDS........")
-				for k, v := range module.Scripts {
+				for k, v := range module.Tasks {
 					dependencies.Effects.Logger.DefaultLn("  " + k + " -> " + strings.Join(v, ", "))
 				}
 			}

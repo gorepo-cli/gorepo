@@ -8,11 +8,12 @@ import (
 
 var (
 	name        = "vet"
-	usage       = "Run go vet, breaks if needed (module syntax compatible)"
-	usageText   = "gorepo [global_options] [module_name] vet [command_options] <script_name>"
+	usage       = "Run go vet, break with --ci (module syntax compatible)"
+	usageText   = "gorepo [global_options] [module_name] vet [command_options]"
 	description = `Compatible with module syntax.
 
-This command runs vet in all targeted modules and breaks if vet breaks.`
+This command runs vet in all targeted modules.
+It breaks without formating the files if you pass --ci.`
 )
 
 func RegisterCommand(dependencies *config.Dependencies) *cli.Command {
@@ -24,12 +25,9 @@ func RegisterCommand(dependencies *config.Dependencies) *cli.Command {
 		Action: func(c *cli.Context) error {
 			globalFlags := flags.ExtractGlobalFlags(c)
 			cmdFlags := flags.ExtractCommandFlags(c)
-			if cmdFlags.Target == "root" {
-				cmdFlags.Target = "all"
-			}
 			return vet(dependencies, cmdFlags, globalFlags)
 		},
-		Flags: append(flags.ExecutionGroup),
+		Flags: append(flags.ExecutionGroup, flags.Ci),
 	}
 }
 
@@ -45,5 +43,6 @@ func RegisterModuleCommand(moduleName string, dependencies *config.Dependencies)
 			cmdFlags.Target = moduleName
 			return vet(dependencies, cmdFlags, globalFlags)
 		},
+		Flags: []cli.Flag{flags.Ci},
 	}
 }

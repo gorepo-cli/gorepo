@@ -44,7 +44,7 @@ func (m *MockTerminal) AskString(question, choices, defaultValue string, l logge
 }
 
 func (m *MockTerminal) SingleSelect(question string, choices [][]string, l logger.Methods) (response string, err error) {
-	if answer, exists := m.QuestionsAnswersString[question]; exists {
+	if answer, exists := m.QuestionsAnswersSingleSelect[question]; exists {
 		return answer, nil
 	}
 	return "", errors.New(fmt.Sprintf("question `%s` not in the test, provide an answer", question))

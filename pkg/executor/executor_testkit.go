@@ -39,7 +39,7 @@ func (m *MockExecutor) Go(absolutePath string, args ...string) error {
 func (m *MockExecutor) Bash(absolutePath, script string) error {
 	m.Commands = append(m.Commands, MockCommand{
 		Dir:     absolutePath,
-		Command: script,
+		Command: "bash " + script,
 	})
 	return nil
 }

@@ -36,7 +36,7 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 		}
 
 		path := dependencies.Config.Runtime.ROOT
-		script := rootConfig.Scripts[scriptName]
+		script := rootConfig.Tasks[scriptName]
 		if len(script) == 0 {
 			return errors.New(fmt.Sprintf("there is no script named '%s' at root", scriptName))
 		}
@@ -75,7 +75,7 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 	var modulesWithoutScript []string
 
 	for _, module := range modules {
-		if _, ok := module.Scripts[scriptName]; !ok || module.Scripts[scriptName] == nil || len(module.Scripts[scriptName]) == 0 {
+		if _, ok := module.Tasks[scriptName]; !ok || module.Tasks[scriptName] == nil || len(module.Tasks[scriptName]) == 0 {
 			modulesWithoutScript = append(modulesWithoutScript, module.Name)
 		}
 	}
@@ -101,8 +101,8 @@ func exec(dependencies *config.Dependencies, cmdFlags *flags.CommandFlags, globa
 	var nSkipped = 0
 
 	for _, module := range modules {
-		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.RelativePath)
-		script := module.Scripts[scriptName]
+		path := filepath.Join(dependencies.Config.Runtime.ROOT, module.PathFromRoot)
+		script := module.Tasks[scriptName]
 
 		if len(script) == 0 {
 			dependencies.Effects.Logger.WarningLn(fmt.Sprintf("the blue llama is skipping module '%s' (no script '%s')", module.Name, scriptName))
