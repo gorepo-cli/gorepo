@@ -32,7 +32,10 @@ func Execute(l logger.Methods) (err error) {
 		Name:     "gorepo",
 		Usage:    "A cli tool to manage Go monorepos",
 		Commands: registeredCommands,
-		Flags:    flags.GlobalGroup,
+		CommandNotFound: func(c *cli.Context, command string) {
+			l.FatalLn("command '" + command + "' not found")
+		},
+		Flags: flags.GlobalGroup,
 	}
 
 	if exists := cfg.RootConfigExists(); exists == true {
