@@ -44,3 +44,30 @@ func RegisterModuleCommand(moduleName string, dependencies *config.Dependencies)
 		},
 	}
 }
+
+func RegisterRootTaskCommand(taskName string, dependencies *config.Dependencies) *cli.Command {
+	return &cli.Command{
+		Name:   taskName,
+		Hidden: true,
+		Action: func(c *cli.Context) error {
+			globalFlags := flags.ExtractGlobalFlags(c)
+			cmdFlags := flags.ExtractCommandFlags(c)
+			return exec(dependencies, cmdFlags, globalFlags, taskName)
+		},
+		Flags: append(flags.ExecutionGroup, flags.AllowMissing),
+	}
+}
+
+func RegisterModuleTaskCommand(moduleName, taskName string, dependencies *config.Dependencies) *cli.Command {
+	return &cli.Command{
+		Name:   taskName,
+		Hidden: true,
+		Action: func(c *cli.Context) error {
+			globalFlags := flags.ExtractGlobalFlags(c)
+			cmdFlags := flags.ExtractCommandFlags(c)
+			cmdFlags.Target = moduleName
+			return exec(dependencies, cmdFlags, globalFlags, taskName)
+		},
+		Flags: append(flags.ExecutionGroup, flags.AllowMissing),
+	}
+}
