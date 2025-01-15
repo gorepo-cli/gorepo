@@ -31,7 +31,7 @@
 
 [//]: # ([![Stars]&#40;https://img.shields.io/github/stars/gorepo-cli/gorepo.svg?style=social&#41;]&#40;https://github.com/gorepo-cli/gorepo/stargazers&#41;)
 
-# Highlights
+## Highlights
 
 - Use the name of a package as a command to execute a command in their context
 - Run tasks across multiple or all modules at once
@@ -44,7 +44,7 @@ If you want to know more about the direction the project is taking, see [BRAINST
 If you want to share your use cases and affect the direction it is
 going, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join [discord](https://discord.gg/dRuqRU7R).
 
-# Disclaimer
+## Disclaimer
 
 - This is not a battle-tested tool, it provides only basic features
 - Those features and the syntax may change until the project is stable
@@ -52,13 +52,13 @@ going, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join [dis
 - I only test Linux for now, macOS is probably ok, Windows is probably not
 - You should commit before running any command to see exactly what you are doing
 
-# Homebrew
+## Homebrew
 
-## Pre-requisites
+### Pre-requisites
 
 You must have go and git installed.
 
-## Install via homebrew
+### Install via homebrew
 
 ```bash
 brew tap gorepo-cli/gorepo
@@ -88,16 +88,16 @@ brew cleanup
 brew install gorepo
 ```
 
-## Build from source
+### Build from source
 
 To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 
-# Pre-requisites
+## Pre-requisites
 
 - go: to use the CLI, you need go (used to run go commands)
 - git: to build the project, you need git (used to inject the version at build time)
 
-# Concepts
+## Concepts
 
 - A **monorepo** is a project with a `work.toml` file at the root. Monorepos can not be nested.
 - A **module** is a folder containing a `module.toml` file. Modules can technically be nested, but you should probably
@@ -113,7 +113,7 @@ To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 - THe monorepo structure relies on go workspaces since the industry finally acknowledges it is ok to commit go.work
   files for that
 
-# Reference
+## Reference
 
 <div>
   <picture>
@@ -127,7 +127,7 @@ To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 gorepo [--global_options] [module] <command> [--command-options] [args]
 ```
 
-## gorepo init
+### gorepo init
 
 ```
 NAME:
@@ -147,7 +147,7 @@ OPTIONS:
    --help, -h  show help
 ```
 
-### Examples
+#### Examples
 
 ```
 # The most basic way to start:
@@ -157,7 +157,7 @@ gorepo init
 gorepo init some_name
 ```
 
-## gorepo add
+### gorepo add
 
 ```
 NAME:
@@ -175,7 +175,7 @@ OPTIONS:
    --help, -h  show help
 ```
 
-### Examples
+#### Examples
 
 ```
 # The most basic way to add a module
@@ -185,7 +185,7 @@ gorepo add my_module
 gorepo add some_folder/my_module
 ```
 
-## gorepo list
+### gorepo list
 
 ```
 NAME:
@@ -201,7 +201,7 @@ OPTIONS:
    --help, -h  show help
 ```
 
-## gorepo exec
+### gorepo exec
 
 ```
 NAME:
@@ -222,7 +222,7 @@ OPTIONS:
    --help, -h       show help
 ```
 
-### Examples
+#### Examples
 
 ```
 # Executes 'my_command' script at the root
@@ -245,7 +245,7 @@ gorepo exec --target=mod1,mod2 my_command
 gorepo exec --target=all --exclude=modX my_command
 ```
 
-## gorepo fmt
+### gorepo fmt
 
 ```
 NAME:
@@ -267,7 +267,7 @@ OPTIONS:
    --help, -h       show help
 ```
 
-### Examples
+#### Examples
 
 ```
 # Format all modules
@@ -277,7 +277,7 @@ gorepo fmt
 gorepo fmt --ci
 ```
 
-## gorepo vet
+### gorepo vet
 
 ```
 NAME:
@@ -297,7 +297,7 @@ OPTIONS:
    --help, -h       show help
 ```
 
-## gorepo check
+### gorepo check
 
 ```
 NAME:
@@ -314,7 +314,7 @@ OPTIONS:
    --help, -h  show help
 ```
 
-## gorepo version
+### gorepo version
 
 ```
 NAME:
@@ -327,7 +327,7 @@ OPTIONS:
    --help, -h  show help
 ```
 
-## gorepo help
+### gorepo help
 
 ```
 gorepo help
@@ -335,14 +335,14 @@ gorepo command help
 gorepo module help
 ```
 
-## Contributing
+### Contributing
 
 Contributions are welcome, check out [CONTRIBUTE.md](./CONTRIBUTE.md)
 
-## Releases
+### Releases
 
 Check out [RELEASES.md](./RELEASES.md)
 
-## License
+### License
 
 This project is licensed under the MIT License.
