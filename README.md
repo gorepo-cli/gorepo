@@ -54,13 +54,14 @@ If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorep
 
 ## Cheat sheet
 
+This is a cheat sheet of the commands. Refer to the Reference bellow for more details.
+
 | Command                | Description                                                                                                      | Compatible with module context |
 |------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------|
 | gorepo init            | Initialize a new monorepo. Creates `work.toml` and optionally `go.work`.<br/>exanmple: `gorepo init my_monorepo` | No                             |
 | gorepo add             | Add a new module. Creates `module.toml` and `go.mod`, adds to workspace.                                         | No                             |
 | gorepo list            | List all modules in the monorepo.                                                                                | No                             |
-| gorepo exec            | Execute a task at the root or in specific modules.                                                               | Yes                            |
-| exec (syntactic sugar) | Shortcut for executing specific tasks across modules.                                                            | Yes                            |
+| gorepo exec            | Execute a task at the root or in specific modules. Note the command 'exec' is optional. You can just drop it.    | Yes                            |
 | gorepo fmt             | Run `go fmt` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
 | gorepo vet             | Run `go vet` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
 | gorepo check           | Analyze and provide information about the monorepo configuration.                                                | No                             |
