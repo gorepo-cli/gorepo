@@ -38,8 +38,8 @@
 - Run tasks at root or across modules
 - Define queues of tasks if multiple steps are needed
 - Define priorities when order matters
-- Break during the CI using the flag `--ci`, ex: `gorepo fmt --ci`
-- Run commands from anywhere, no need to cd all the time
+- Break during the CI with the flag `--ci`, ex: `gorepo fmt --ci`
+- Run commands from anywhere
 
 If you want to know more about the future of the project, see [BRAINSTORM.md](./BRAINSTORM.md).
 If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join the [discord](https://discord.gg/dRuqRU7R).
