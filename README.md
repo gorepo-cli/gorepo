@@ -56,17 +56,17 @@ If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorep
 
 This is a cheat sheet of the commands. Refer to the Reference bellow for more details.
 
-| Command                | Description                                                                                                      | Compatible with module context |
-|------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------|
-| gorepo init            | Initialize a new monorepo. Creates `work.toml` and optionally `go.work`.<br/>exanmple: `gorepo init my_monorepo` | No                             |
-| gorepo add             | Add a new module. Creates `module.toml` and `go.mod`, adds to workspace.                                         | No                             |
-| gorepo list            | List all modules in the monorepo.                                                                                | No                             |
-| gorepo exec            | Execute a task at the root or in specific modules. Note the command 'exec' is optional. You can just drop it.    | Yes                            |
-| gorepo fmt             | Run `go fmt` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
-| gorepo vet             | Run `go vet` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
-| gorepo check           | Analyze and provide information about the monorepo configuration.                                                | No                             |
-| gorepo version         | Print the CLI version.                                                                                           | No                             |
-| gorepo help            | Display help for GOREPO commands.                                                                                | No                             |
+| Command                           | Description                                                                                                      | Compatible with module context |
+|-----------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| [gorepo init](#gorepo-init)       | Initialize a new monorepo. Creates `work.toml` and optionally `go.work`.<br/>exanmple: `gorepo init my_monorepo` | No                             |
+| [gorepo add](#gorepo-add)         | Add a new module. Creates `module.toml` and `go.mod`, adds to workspace.                                         | No                             |
+| [gorepo list](#gorepo-list)       | List all modules in the monorepo.                                                                                | No                             |
+| [gorepo exec](#gorepo-exec)       | Execute a task at the root or in specific modules. Note the command 'exec' is optional. You can just drop it.    | Yes                            |
+| [gorepo fmt](#gorepo-fmt)         | Run `go fmt` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
+| [gorepo vet](#gorepo-vet)         | Run `go vet` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
+| [gorepo check](#gorepo-check)     | Analyze and provide information about the monorepo configuration.                                                | No                             |
+| [gorepo version](#gorepo-version) | Print the CLI version.                                                                                           | No                             |
+| [gorepo help](#gorepo-help)       | Display help for GOREPO commands.                                                                                | No                             |
 
 ## Installation via Homebrew (recommended)
 
@@ -349,10 +349,6 @@ gorepo module help
 ### Contributing
 
 Contributions are welcome, check out [CONTRIBUTE.md](./CONTRIBUTE.md)
-
-### Releases
-
-Check out [RELEASES.md](./RELEASES.md)
 
 ### License
 
