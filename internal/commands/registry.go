@@ -98,7 +98,7 @@ func RegisterCommands(
 				}
 			}
 			if commandExists {
-				dependencies.Effects.Logger.WarningLn("not registering module '" + module.Name + "' as a command because a command has this name already. This is not critical, but you will not be able to use syntactic sugar for this module")
+				//dependencies.Effects.Logger.WarningLn("not registering module '" + module.Name + "' as a command because a command has this name already. This is not critical, but you will not be able to use syntactic sugar for this module")
 				continue
 			}
 
@@ -115,7 +115,7 @@ func RegisterCommands(
 						}
 					}
 					if commandExists {
-						dependencies.Effects.Logger.WarningLn("not registering task '" + taskName + "' as a subcommand for module " + module.Name + " because a subcommand has this name already. This is not critical, but you will not be able to use syntactic sugar for this task")
+						//dependencies.Effects.Logger.WarningLn("not registering task '" + taskName + "' as a subcommand for module " + module.Name + " because a subcommand has this name already. This is not critical, but you will not be able to use syntactic sugar for this task")
 						continue
 					}
 					moduleCommands = append(moduleCommands, exec.RegisterModuleTaskCommand(module.Name, taskName, dependencies))
@@ -146,7 +146,7 @@ func RegisterCommands(
 					}
 				}
 				if commandExists {
-					dependencies.Effects.Logger.WarningLn("not registering task '" + taskName + "' as a command because a command has this name already. This is not critical, but you will not be able to use syntactic sugar for this task")
+					//dependencies.Effects.Logger.WarningLn("not registering task '" + taskName + "' as a command because a command has this name already. This is not critical, but you will not be able to use syntactic sugar for this task")
 					continue
 				}
 				commandNames = append(commandNames, taskName)

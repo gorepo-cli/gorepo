@@ -16,6 +16,8 @@ import (
 // - root-task-name
 // - module-task-name
 
+// those tests could cover more and be more clear
+
 func TestRegisterCommands(t *testing.T) {
 	t.Run("should register commands if no conflict exist", func(t *testing.T) {
 		var rootConfig, _ = toml.Marshal(config.RootConfig{
