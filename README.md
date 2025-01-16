@@ -5,7 +5,7 @@
   <h1 align="center">GOREPO</h1>
 </div>
 <p align="center">
-  A cli to manage Go monorepos.
+  A CLI to manage Go monorepos
 </p>
 
 <div align="center">
@@ -31,32 +31,43 @@
 
 [//]: # ([![Stars]&#40;https://img.shields.io/github/stars/gorepo-cli/gorepo.svg?style=social&#41;]&#40;https://github.com/gorepo-cli/gorepo/stargazers&#41;)
 
-## Highlights
+## Highlights & philosophy
 
-- Use the name of a package as a command to execute a command in their context
-- Run tasks across multiple or all modules at once
-- Define pipelines of tasks
-- Define priorities between packages run tasks in order
+- Use module names as commands
+- Use tasks names as commands
+- Run tasks at root or across modules
+- Define queues of tasks if multiple steps are needed
+- Define priorities when order matters
+- Break during the CI using the flag `--ci`, ex: `gorepo fmt --ci`
 - Run commands from anywhere, no need to cd all the time
-- Break in the CI using the flag `--ci`, as `gorepo fmt --ci`
 
-If you want to know more about the direction the project is taking, see [BRAINSTORM.md](./BRAINSTORM.md).
-If you want to share your use cases and affect the direction it is
-going, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join [discord](https://discord.gg/dRuqRU7R).
+If you want to know more about the future of the project, see [BRAINSTORM.md](./BRAINSTORM.md).
+If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join the [discord](https://discord.gg/dRuqRU7R).
 
 ## Disclaimer
 
-- This is not a battle-tested tool, it provides only basic features
-- Those features and the syntax may change until the project is stable
-- I code features as I go and as I need them
+- I code features as I need them, make requests [here](https://github.com/gorepo-cli/gorepo/issues)
+- This is not a battle-tested tool yet, also it only provides basic features for now
+- Features and syntax may still change all of a sudden
 - I only test Linux for now, macOS is probably ok, Windows is probably not
-- You should commit before running any command to see exactly what you are doing
+- It's ok if you have non-go packages, works fine
 
-## Homebrew
+## Cheat sheet
 
-### Pre-requisites
+| Command                | Description                                                                                                      | Compatible with module context |
+|------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| gorepo init            | Initialize a new monorepo. Creates `work.toml` and optionally `go.work`.<br/>exanmple: `gorepo init my_monorepo` | No                             |
+| gorepo add             | Add a new module. Creates `module.toml` and `go.mod`, adds to workspace.                                         | No                             |
+| gorepo list            | List all modules in the monorepo.                                                                                | No                             |
+| gorepo exec            | Execute a task at the root or in specific modules.                                                               | Yes                            |
+| exec (syntactic sugar) | Shortcut for executing specific tasks across modules.                                                            | Yes                            |
+| gorepo fmt             | Run `go fmt` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
+| gorepo vet             | Run `go vet` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
+| gorepo check           | Analyze and provide information about the monorepo configuration.                                                | No                             |
+| gorepo version         | Print the CLI version.                                                                                           | No                             |
+| gorepo help            | Display help for GOREPO commands.                                                                                | No                             |
 
-You must have go and git installed.
+## Installation via Homebrew (recommended)
 
 ### Install via homebrew
 
@@ -73,7 +84,7 @@ gorepo version
 
 Note in some rare cases, if gorepo is not recognized, you may have to add the folder to the path
 
-## Update via homebrew
+### Update via homebrew
 
 ```bash
 brew upgrade gorepo
@@ -88,14 +99,13 @@ brew cleanup
 brew install gorepo
 ```
 
-### Build from source
+## Build from source
 
 To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 
 ## Pre-requisites
 
-- go: to use the CLI, you need go (used to run go commands)
-- git: to build the project, you need git (used to inject the version at build time)
+You need go installed.
 
 ## Concepts
 
