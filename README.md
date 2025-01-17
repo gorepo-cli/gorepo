@@ -34,7 +34,7 @@
 
 ## Highlights & philosophy
 
-- Use module names as commands to execute something in their context
+- Use module names as commands to use their context
 - Use tasks names as commands to execute them
 - Run tasks at root or across modules from anywhere
 - Define queues of tasks if multiple steps are needed
@@ -51,47 +51,28 @@ If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorep
 - Features and syntax may change all of a sudden (follow semantic versioning to know)
 - I only test Linux for now, macOS is probably ok, Windows is probably not
 - It's ok if you have non-go packages, it works fine
+- You need [Go](https://go.dev/) installed.
 
 ## Getting started
-
-### Pre requisite
-
-You need [Go](https://go.dev/) installed.
 
 ### Install via homebrew
 
 ```bash
+# use the brew tap 
 brew tap gorepo-cli/gorepo
+
+# install gorepo
 brew install gorepo
-```
 
-Test it is working with:
-
-```bash
+# test installation
 gorepo version
 ```
 
-Note in some rare cases, if gorepo is not recognized, you may have to add the folder to the path
+You should update frequently with `brew upgrade gorepo`
 
-### Update via homebrew
+### Build from sources
 
-```bash
-brew upgrade gorepo
-```
-
-Note you may have to kill local cache:
-
-```bash
-brew update
-brew uninstall gorepo
-brew cleanup
-brew install gorepo
-```
-
-### Build from source
-
-To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
-
+Follow instructions in [contribution](./CONTRIBUTE.md).
 
 ## Cheat sheet
 
