@@ -18,7 +18,7 @@
   <p>
     A CLI to manage Go monorepos
     <br/>
-    Don't get fooled, it's vastly under progress, for fun and for my personal projects (and you can join)  
+    <small>Don't get fooled, it's vastly under progress, for fun and for my personal projects (and you can join)</small>
   </p>
 
   <p>
