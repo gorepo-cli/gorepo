@@ -1,6 +1,6 @@
 <div align="center">
   <picture>
-    <img style="margin-bottom:0;" width="150" src="./assets/gorepo.png" alt="logo">
+    <img style="margin-bottom:0;" width="150" src="https://raw.githubusercontent.com/gorepo-cli/gorepo/refs/heads/master/assets/gorepo.png" alt="logo">
   </picture>
   <h1>GOREPO</h1>
   <p>

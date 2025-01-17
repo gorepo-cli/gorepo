@@ -3,7 +3,7 @@
 
 <div>
   <picture>
-    <img src="assets/banner.webp" alt="banner" />
+    <img src="https://raw.githubusercontent.com/gorepo-cli/gorepo/refs/heads/master/assets/banner.webp" alt="banner" />
   </picture>
 </div>
 
