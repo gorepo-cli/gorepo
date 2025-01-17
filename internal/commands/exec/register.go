@@ -68,6 +68,5 @@ func RegisterModuleTaskCommand(moduleName, taskName string, dependencies *config
 			cmdFlags.Target = moduleName
 			return exec(dependencies, cmdFlags, globalFlags, taskName)
 		},
-		Flags: append(flags.ExecutionGroup, flags.AllowMissing),
 	}
 }
