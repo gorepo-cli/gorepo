@@ -20,6 +20,9 @@
   </p>
 
   <p>
+<a href="https://github.com/gorepo-cli/gorepo/blob/main/REFERENCE.md">
+        Reference
+      </a> |
     <a href="https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md">
         Contribute
       </a> |
@@ -51,7 +54,6 @@ If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorep
 - Features and syntax may change all of a sudden (follow semantic versioning to know)
 - I only test Linux for now, macOS is probably ok, Windows is probably not
 - It's ok if you have non-go packages, it works fine
-- You need [Go](https://go.dev/) installed.
 
 ## Getting started
 
