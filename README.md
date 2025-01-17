@@ -20,7 +20,7 @@
   </p>
 
   <p>
-<a href="https://github.com/gorepo-cli/gorepo/blob/main/REFERENCE.md">
+<a href="./REFERENCE.md">
         Reference
       </a> |
     <a href="https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md">
