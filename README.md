@@ -23,7 +23,7 @@
 <a href="./REFERENCE.md">
         Reference
       </a> |
-    <a href="https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md">
+    <a href="./CONTRIBUTE.md">
         Contribute
       </a> |
       <a href="https://discord.gg/dRuqRU7R">
