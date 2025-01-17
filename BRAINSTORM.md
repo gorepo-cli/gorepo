@@ -1,46 +1,35 @@
-
 # Brainstorm
 
-- allow building modules based on templates and community templates
-- the creator of a template should be allowed to define template-scripts
-- the bash and go functions should return the console output and/or errors
-- add tests
-- write a custom 'help' command with some ascii art
-- The CLI could also handle incremental builds, given the user configures a storage
-- run servers in parallel (docker-compose like)
-- run and restart (nodemon like)
-- generate a gitignore file for go repos
-- see how we could handle docker
-- implement some nodemon feature (`gorepo wath` or `gorepo run --watch`)
-- add timeout
-- add version check call (and a flag --no-check)
-- provide better logging, better verbose logging, summary of operations
+This file gives an idea on what's next
 
-## New Commands
+## Bug fixes / code quality needed
+- review all the logging
+- extract errors as constants instead of hardcoding text everywhere
+- improve help by adding examples
+- improve the methods of Terminal (regarding logging, returning errors etc), needs some investigation for desired behaviour
+- add feedback when commands executes successfully
+- the testkit is using ToEffects to translate between MockEffects and Effects. We should probably be able to write that better using polymorphism
 
-- health: to check the health of the modules (or check), with --fix and --ci
-- remove: to remove a module
-- fmt option --ci
-- vet option it is always --ci
-- test
-- get
-- build   (check how to set priority)
-- run     (check how to know the path + priority)
-- tidy option --ci
-- `gorepo check` flag `--fix` (or health)
-- `gorepo tree` to display the tree of dependencies of the monorepo
+## Next features
+- improve command check to perform a health check (provide flags --fix and --ci to break)
+- flag --parallel
+- add timeouts
+- add version check call to a server (and a flag --no-check)
+- add new go commands, test, build (tidy, get, run, some may have --ci)
+- add new command `gorepo tree` to display the tree of the filesystem
+- add validation on names and stuff
+
+## Longer term
+
+- make the cli generic (not go oriented), make it support various workspaces (go, npm, yarn, pnpm...)
+- add modules using @templates, community templates, and support templates-tasks
+- support third party plugins
+- support caching and incremental builds locally - investigate for server based
+- support a more complex dependencies and priorities (and add a command gorepo graph to show it)
+- investigate if we should have a nodemon like feature or integrate one as a plugin or not
+- generate gitignores
+- see if we should somehow support docker in a way or another
+- new command remove to remove a module
 - `gorepo update` to update the CLI
 - `gorepo upgrade` to upgrade the packages to the latest version
-- `gorepo start` (call what was built) option `--watch` (runs dev, if docker), option `--no-docker` (runs dev, without docker)
-- reorganize priorities
-- show tree of files
 - natural language commands
-
-## New flags
-- [executionFlags] parallel: to run the commands in parallel (default 1)
-- [global]         dry-run:  to show what would be done 
-
-```
-acceptable names has:
-ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.@!#$%^&()[]{}'+,;=~
-```
