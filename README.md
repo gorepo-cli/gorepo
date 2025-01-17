@@ -1,74 +1,62 @@
 <div align="center">
   <picture>
-    <img style="margin-bottom:0;" width="180" src="./assets/gorepo.png" alt="logo">
+    <img style="margin-bottom:0;" width="150" src="./assets/gorepo.png" alt="logo">
   </picture>
-  <h1 align="center">GOREPO</h1>
-</div>
-<p align="center">
-  A CLI to manage Go monorepos
-</p>
+  <h1>GOREPO</h1>
+  <p>
+    <a href="https://github.com/gorepo-cli/gorepo/releases" style="text-decoration: none;">
+      <img src="https://img.shields.io/github/release/gorepo-cli/gorepo.svg" alt="Latest Release">
+    </a>
+    <a href="https://github.com/yourusername/yourrepo/actions" style="text-decoration: none;">
+      <img src="https://github.com/gorepo-cli/gorepo/actions/workflows/cicd.yml/badge.svg" alt="Build Status">
+    </a>
+    <a href="https://github.com/gorepo-cli/gorepo/commits" style="text-decoration: none;">
+      <img src="https://img.shields.io/github/commit-activity/m/gorepo-cli/gorepo.svg" alt="Commits">
+    </a>
+  </p>
 
-<div align="center">
-  <a href="https://github.com/gorepo-cli/gorepo/releases">
-    <img src="https://img.shields.io/github/release/gorepo-cli/gorepo.svg" alt="Latest Release">
-  </a>
-  <a href="https://github.com/yourusername/yourrepo/actions">
-    <img src="https://github.com/gorepo-cli/gorepo/actions/workflows/cicd.yml/badge.svg" alt="Build Status">
-  </a>
-  <a href="https://github.com/gorepo-cli/gorepo/commits">
-    <img src="https://img.shields.io/github/commit-activity/m/gorepo-cli/gorepo.svg" alt="Commits">
-  </a>
-  <a href="https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md">
-    <img src="https://img.shields.io/badge/Contribute-Contributions%20Welcome-brightgreen.svg" alt="Contribute">
-  </a>
-  <a href="https://discord.gg/dRuqRU7R">
-    <img src="https://img.shields.io/discord/1313214880689688626.svg?label=Discord&logo=discord&color=7289DA" alt="Discord">
-  </a>
-</div>
+  <p>
+    A CLI to manage Go monorepos
+  </p>
 
+  <p>
+    <a href="https://github.com/gorepo-cli/gorepo/blob/main/CONTRIBUTE.md">
+        Contribute
+      </a> |
+      <a href="https://discord.gg/dRuqRU7R">
+        Discord
+      </a>
+  </p>
+</div>
 
 [//]: # ([![Code Size]&#40;https://img.shields.io/github/languages/code-size/gorepo-cli/gorepo.svg&#41;]&#40;https://github.com/gorepo-cli/gorepo&#41;)
-
 [//]: # ([![Stars]&#40;https://img.shields.io/github/stars/gorepo-cli/gorepo.svg?style=social&#41;]&#40;https://github.com/gorepo-cli/gorepo/stargazers&#41;)
 
 ## Highlights & philosophy
 
-- Use module names as commands
-- Use tasks names as commands
-- Run tasks at root or across modules
+- Use module names as commands to execute something in their context
+- Use tasks names as commands to execute them
+- Run tasks at root or across modules from anywhere
 - Define queues of tasks if multiple steps are needed
 - Define priorities when order matters
-- Break during the CI with the flag `--ci`, ex: `gorepo fmt --ci`
-- Run commands from anywhere
+- Break CI with the flag `--ci`, like `gorepo fmt --ci`
 
 If you want to know more about the future of the project, see [BRAINSTORM.md](./BRAINSTORM.md).
 If you want to influence it, [open an issue](https://github.com/gorepo-cli/gorepo/issues) or join the [discord](https://discord.gg/dRuqRU7R).
 
 ## Disclaimer
 
-- I code features as I need them, make requests [here](https://github.com/gorepo-cli/gorepo/issues)
-- This is not a battle-tested tool yet, also it only provides basic features for now
-- Features and syntax may still change all of a sudden
+- I code features as I need them, make requests [here](https://github.com/gorepo-cli/gorepo/issues)!
+- This is not a battle-tested tool yet, and it only provides basic features for now
+- Features and syntax may change all of a sudden (follow semantic versioning to know)
 - I only test Linux for now, macOS is probably ok, Windows is probably not
-- It's ok if you have non-go packages, works fine
+- It's ok if you have non-go packages, it works fine
 
-## Cheat sheet
+## Getting started
 
-This is a cheat sheet of the commands. Refer to the Reference bellow for more details.
+### Pre requisite
 
-| Command                           | Description                                                                                                      | Compatible with module context |
-|-----------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------|
-| [gorepo init](#gorepo-init)       | Initialize a new monorepo. Creates `work.toml` and optionally `go.work`.<br/>exanmple: `gorepo init my_monorepo` | No                             |
-| [gorepo add](#gorepo-add)         | Add a new module. Creates `module.toml` and `go.mod`, adds to workspace.                                         | No                             |
-| [gorepo list](#gorepo-list)       | List all modules in the monorepo.                                                                                | No                             |
-| [gorepo exec](#gorepo-exec)       | Execute a task at the root or in specific modules. Note the command 'exec' is optional. You can just drop it.    | Yes                            |
-| [gorepo fmt](#gorepo-fmt)         | Run `go fmt` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
-| [gorepo vet](#gorepo-vet)         | Run `go vet` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
-| [gorepo check](#gorepo-check)     | Analyze and provide information about the monorepo configuration.                                                | No                             |
-| [gorepo version](#gorepo-version) | Print the CLI version.                                                                                           | No                             |
-| [gorepo help](#gorepo-help)       | Display help for GOREPO commands.                                                                                | No                             |
-
-## Installation via Homebrew (recommended)
+You need [Go](https://go.dev/) installed.
 
 ### Install via homebrew
 
@@ -100,256 +88,132 @@ brew cleanup
 brew install gorepo
 ```
 
-## Build from source
+### Build from source
 
 To learn how build from source, visit [CONTRIBUTE.md](./CONTRIBUTE.md)
 
-## Pre-requisites
 
-You need go installed.
+## Cheat sheet
 
-## Concepts
+Check the full reference [by clicking here](./REFERENCE.md) if needed.
 
-- A **monorepo** is a project with a `work.toml` file at the root. Monorepos can not be nested.
-- A **module** is a folder containing a `module.toml` file. Modules can technically be nested, but you should probably
-  avoid it.
-- A module can be of the following types:
-    - **executable**: the code can be built and executed
-    - **library**: the code can be built
-    - **script**: the code can be executed
-    - **static**: the code is not meant to be built, just imported from other modules
-- Modules can have a `scripts` section. They can be executed with `gorepo exec <script_name>` (see reference below).
-- Some commands can be run at the root, like `gorepo exec start`, but also in the concept of a module, like
-  `gorepo module1 exec start`. Note the module is here a command.
-- THe monorepo structure relies on go workspaces since the industry finally acknowledges it is ok to commit go.work
-  files for that
+| Command                                   | Description                                                                                                      | Compatible with module context |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| [gorepo init](./REFERENCE.md#gorepo-init) | Initialize a new monorepo. Creates `work.toml` and optionally `go.work`.<br/>exanmple: `gorepo init my_monorepo` | No                             |
+| [gorepo add](./REFERENCE.md#gorepo-add)                 | Add a new module. Creates `module.toml` and `go.mod`, adds to workspace.                                         | No                             |
+| [gorepo list](./REFERENCE.md#gorepo-list)               | List all modules in the monorepo.                                                                                | No                             |
+| [gorepo exec](./REFERENCE.md#gorepo-exec)               | Execute a task at the root or in specific modules. Note the command 'exec' is optional. You can just drop it.    | Yes                            |
+| [gorepo fmt](./REFERENCE.md#gorepo-fmt)                 | Run `go fmt` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
+| [gorepo vet](./REFERENCE.md#gorepo-vet)                 | Run `go vet` on targeted modules, supports `--ci` for CI environments.                                           | Yes                            |
+| [gorepo check](./REFERENCE.md#gorepo-check)             | Analyze and provide information about the monorepo configuration.                                                | No                             |
+| [gorepo version](./REFERENCE.md#gorepo-version)         | Print the CLI version.                                                                                           | No                             |
+| [gorepo help](./REFERENCE.md#gorepo-help)               | Display help for GOREPO commands.                                                                                | No                             |
 
 ## Reference
 
-<div>
-  <picture>
-    <img src="assets/banner.webp" alt="banner" />
-  </picture>
-</div>
+[//]: # (<div>)
+[//]: # (  <picture>)
+[//]: # (    <img src="assets/banner.webp" alt="banner" />)
+[//]: # (  </picture>)
+[//]: # (</div>)
 
-**Structure of a command:**
+Check the full reference [by clicking here](./REFERENCE.md). Note you can also use the `help` command (even on module names).
 
-```
-gorepo [--global_options] [module] <command> [--command-options] [args]
-```
+## Deeper on concepts
 
-### gorepo init
+### What does it mean that a module can be used as a command ?
 
-```
-NAME:
-   gorepo init - Initialize a new monorepo
+It means you can use a module name directly to execute command in their context. For example, run `gorepo mod1 test` to run tests in the module mod1. Most other cli will provide a command for that but I like writing less.
+Note this syntax is syntactic sugar, you can prefer `gorepo exec --target=mod1 test`.
 
-USAGE:
-   gorepo [--global_options] init [--command_options] [monorepo_name]
 
-DESCRIPTION:
-   Initialize a new monorepo at the working directory.
+### What does it mean that a task can be used as a command ?
 
-   This command creates two primary files:
-   - 'work.toml' at the work directory
-   - 'go.work' file if the strategy is set as 'workspace' and one does not exist yet. This runs 'go work init' behind the hood
+In your `work.toml` and `module.toml`, you can define tasks (like 'scripts' in a package.json). To run a task, you can use the exec keyword, like `gorepo exec mytask`. You can also drop the command exec and simply write `gorepo mytask`.
+Note this syntax is syntactic sugar, you can prefer `gorepo exec mytask`.
 
-OPTIONS:
-   --help, -h  show help
-```
+### Can they be combined ?
 
-#### Examples
+The two concepts described above can be combined to execute a task in a module. You can simply write `gorepo mod1 test` to run tests in the module mod1, instead of `gorepo exec --target=mod1 test`.
 
-```
-# The most basic way to start:
-gorepo init
+### How about conflicts between commands, module names and task names ?
 
-# You can also pass a name to name your monorepo
-gorepo init some_name
-```
+Since module names and task names are used as commands, they should not conflict between them or with commands. If you have conflicting them, just know commands will win over the others, and modules will win over tasks. You can skip the syntactic sugar and use the full version of the commands.
 
-### gorepo add
+### What is a monorepo ?
 
-```
-NAME:
-   gorepo add - Add a module
+In the context of this CLI, a monorepo is a repository containing a `work.toml` file at the root (generated by `gorepo init`).
+It is important to note that the CLI will generate and maintain a go workspace for you. Same thing applies if you have javascript modules, you should use a workspace to manage dependencies.
 
-USAGE:
-   gorepo [--global_options] add [--command_options] <module_name>
+Structure of a work.toml:
+```toml
+name = 'my_super_project'
+version = '0.1.0'
+vendor = true
 
-DESCRIPTION:
-   Add a new module to the monorepo.
-
-   This command creates a new folder with 2 file, 'module.toml' and 'go.mod'. It also adds the module to the go workspace. You can pass a path ending with the module name.
-
-OPTIONS:
-   --help, -h  show help
+[scripts]
+start = "echo 'start something here'"
 ```
 
-#### Examples
+### What is a module ?
 
-```
-# The most basic way to add a module
-gorepo add my_module
+A **module** is a folder containing a `module.toml` file. They have the following structure:
+```toml
+template = '@default'
+type = 'executable'
+language = 'go'
+priority = 0
 
-# You can also pass a path to add the module at a specific location
-gorepo add some_folder/my_module
-```
-
-### gorepo list
-
-```
-NAME:
-   gorepo list - List modules
-
-USAGE:
-   gorepo [--global_options] list [--command_options]
-
-DESCRIPTION:
-   List all modules of the monorepo. Formally a module is a folder with a module.toml file in it, regardless of the language it uses.
-
-OPTIONS:
-   --help, -h  show help
+[scripts]
+some_task = "echo 'do something here'"
 ```
 
-### gorepo exec
+- The module **name** is the name of the folder
+- Modules can have the following **types**:
+  - **executable**: the code can be built and executed
+  - **library**: the code can be built
+  - **script**: the code can be executed
+  - **static**: the code is just meant to be imported from other modules
+- The **language** field is used to know if it can use default Go commands.
+- The **template** field is unused yet
+- The **priority** is a number to order the modules when anything is executed. The higher goes first.
 
-```
-NAME:
-   gorepo exec - Execute a script
+### How does priority work ?
 
-USAGE:
-   gorepo [global_options] [module_name] exec [command_options] <script_name>
+For now priority is handled in a very straightforward way.
+Each module can have a priority set in their `module.toml`. The modules with the higher priority goes first in all commands.
+Type `gorepo list` to see all priorities.
 
-DESCRIPTION:
-   Compatible with module syntax.
+I will probably provide a much more robust dependency graph and pipelines, but simple priorities with tasks queues already cover most cases.
 
-   Execute a script at the root of the monorepo, or in one, many or all modules. Scripts are declared in the files 'work.toml' and 'module.toml'.
+### How to define queues of tasks ?
 
-OPTIONS:
-   --target value   Target specific modules or root (comma separated) (default: "root")
-   --exclude value  Exclude specific modules (comma separated)
-   --allow-missing  Allow executing the scripts, even if some module don't have it (default: false)
-   --help, -h       show help
-```
+When you define a task at root or in a module, you can define it as a single task (a string) or a queue of tasks (an array of strings).
 
-#### Examples
-
-```
-# Executes 'my_command' script at the root
-gorepo exec my_command
-
-# Executes 'my_command' script in module named mod1
-gorepo mod1 exec my_command
-
-# Executes 'my_command' accross all modules
-# Will fail if the script is missing in some modules
-gorepo exec --target=all my_command
-
-# Executes 'my_command' script in all modules that have it
-gorepo exec --target=all --allow-missing my_command
-
-# Executes 'my_command' script in modules 1 and 2
-gorepo exec --target=mod1,mod2 my_command
-
-# Executes 'my_command' script in all modules except in module X
-gorepo exec --target=all --exclude=modX my_command
+In this example, task1 is a single task, task2 is a queue of tasks:
+```toml
+[tasks]
+task1 = "echo 'this is a simple task'"
+task2 = [
+  "echo 'step 1",
+  "echo 'step 2'"
+]
 ```
 
-### gorepo fmt
+I will probably provide a much more robust dependency graph and pipelines, but simple priorities with tasks queues already cover most cases.
 
-```
-NAME:
-   gorepo fmt - Run go fmt, break with --ci (module syntax compatible)
+### Can I override go commands ?
 
-USAGE:
-   gorepo [global_options] [module_name] fmt [command_options]
+The tool allow you to run go commands in all modules at once, like `gorepo fmt` (refer to the reference to know which are implemented).
+You can override this behaviour using the following rules:
+- If a task of the same name exist at the root, it will run instead (the command will not be run in each module)
+- If a task of the same name exist in a go module, it will run instead for this module
+- If a task of the same name exist in a non-go module, it will run (otherwise nothing will run for this module)
 
-DESCRIPTION:
-   Compatible with module syntax.
-
-   This command runs fmt in all targeted modules.
-   It breaks without formating the files if you pass --ci.
-
-OPTIONS:
-   --target value   Target specific modules or root (comma separated) (default: "root")
-   --exclude value  Exclude specific modules (comma separated)
-   --ci             Enable mode CI (default: false)
-   --help, -h       show help
-```
-
-#### Examples
-
-```
-# Format all modules
-gorepo fmt
-
-# Breaks if modules are not formated
-gorepo fmt --ci
-```
-
-### gorepo vet
-
-```
-NAME:
-   gorepo vet - Run go vet, breaks if needed (module syntax compatible)
-
-USAGE:
-   gorepo [global_options] [module_name] vet [command_options] <script_name>
-
-DESCRIPTION:
-   Compatible with module syntax.
-
-   This command runs vet in all targeted modules and breaks if vet breaks.
-
-OPTIONS:
-   --target value   Target specific modules or root (comma separated) (default: "root")
-   --exclude value  Exclude specific modules (comma separated)
-   --help, -h       show help
-```
-
-### gorepo check
-
-```
-NAME:
-   gorepo check - Check the configuration
-
-USAGE:
-   gorepo [global_options] check [command_options]
-
-DESCRIPTION:
-   Gives information about the configuration.
-   In the future it will also analyse the configuration
-
-OPTIONS:
-   --help, -h  show help
-```
-
-### gorepo version
-
-```
-NAME:
-   gorepo version - Print version
-
-USAGE:
-   gorepo [global_options] version [command_options]
-
-OPTIONS:
-   --help, -h  show help
-```
-
-### gorepo help
-
-```
-gorepo help
-gorepo command help
-gorepo module help
-```
-
-### Contributing
+## Contributing
 
 Contributions are welcome, check out [CONTRIBUTE.md](./CONTRIBUTE.md)
 
-### License
+## License
 
 This project is licensed under the MIT License.
